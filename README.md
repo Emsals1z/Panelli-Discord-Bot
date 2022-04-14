@@ -1,5 +1,5 @@
 # Açıklama
-Yeni başlayanlara yardımcı olması için uzun süreler uğraştığım wep panelli discord panelimi **paylaşıyorum**.
+Yeni başlayanlara yardımcı olması için uzun süreler uğraştığım web panelli discord botumu **paylaşıyorum**. Umarım yeni başlayanlara yardımcı olur. Sadece sizden istediğim botumun içindeki kodları para karşılığı satmamanız.
 
 # Kurulum
 **-** **ayarlar.json** içindeki bilgileri doldurunuz.
