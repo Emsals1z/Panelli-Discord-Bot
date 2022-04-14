@@ -1,6 +1,7 @@
 # Açıklama
 Yeni başlayanlara yardımcı olması için uzun süreler uğraştığım web panelli discord botumu **paylaşıyorum**. Umarım yeni başlayanlara yardımcı olur. Sadece sizden istediğim botumun içindeki kodları para karşılığı satmamanız.
 
+Botun web panelinin önizlemesi: https://f-bott.glitch.me/
 # Kurulum
 **-** **ayarlar.json** içindeki bilgileri doldurunuz.
 
