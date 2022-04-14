@@ -1,0 +1,229 @@
+
+<%- include('../blocks/head', {bot, user, path}) %>
+    <link rel="stylesheet" href="/public/css/dashboard1.css" />
+    <link rel="stylesheet" href="/public/css/bulma.css" />
+    <link rel="stylesheet" href="/public/js/style.js" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<head>
+
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/loader.css" rel="stylesheet" type="text/css" />
+    <script src="https://designreset.com/cork/ltr/demo9/assets/js/loader.js"></script>
+    <link href="https://pro.fontawesome.com/releases/v5.13.1/css/all.css" rel="stylesheet">
+    <link href="/public/css/admin.css" rel="stylesheet">
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
+    <link href="https://designreset.com/cork/ltr/demo9/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/plugins.css" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <link href="https://designreset.com/cork/ltr/demo9/plugins/apex/apexcharts.css" rel="stylesheet" type="text/css">
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/dashboard/dash_1.css" rel="stylesheet" type="text/css" class="dashboard-analytics" />
+    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://designreset.com/cork/ltr/demo9/plugins/table/datatable/datatables.css">
+    <link rel="stylesheet" type="text/css" href="https://designreset.com/cork/ltr/demo9/plugins/table/datatable/dt-global_style.css">
+  
+</head>
+
+
+
+  
+
+
+<div id="content" class="main-content">
+    <form method="post">
+         <div class="page-header">
+         <nav class="breadcrumb-one" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/dashboard">Panel</a></li>
+                    <li class="breadcrumb-item active"><a href="/dashboard/<%= guild.id %>/manage">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item active"><a href="/dashboard/<%= guild.id %>/fun">Eğlence</a></li>
+                </ol>
+            </nav>
+           
+      </div>
+   <div class="row layout-top-spacing" id="cancel-row">
+         
+      <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+         <div class="widget widget-one">
+            <br>
+    <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Çekiliş</label>
+   <br>
+            <br>
+      <div class="input-group mb-2 mr-sm-2 mb-sm-0" >
+            <div class="input-group-addon" style="width: 50%; text-align: left; margin: 0; ">Kazanan Sayısı</div>
+            <% if (db.has(`çekiliş_${guild.id}.winner`) === false) { %>
+     <input type="text" class="form-control u-btn-round" name="çw" id="çw" placeholder="2">
+         <% } %>
+        <% if (db.has(`çekiliş_${guild.id}.winner`) === true) { %>
+       <input type="text" class="form-control u-btn-round" name="çw" id="çw" placeholder="<%=db.get(`çekiliş_${guild.id}.winner`)%>">
+         <% } %>
+      </div>
+    <div class="input-group mb-2 mr-sm-2 mb-sm-0" >
+            <div class="input-group-addon" style="width: 50%; text-align: left; margin: 0;">Ödül</div>
+            <% if (db.has(`çekiliş_${guild.id}.prize`) === false) { %>
+     <input type="text" class="form-control u-btn-round" name="çö" id="çö" placeholder="1 Ay Nitro">
+         <% } %>
+        <% if (db.has(`çekiliş_${guild.id}.prize`) === true) { %>
+       <input type="text" class="form-control u-btn-round"  name="çö" id="çö" placeholder="<%=db.get(`çekiliş_${guild.id}.prize`)%>">
+         <% } %>
+      </div>
+    <div class="input-group mb-2 mr-sm-2 mb-sm-0" >
+            <div class="input-group-addon" style="width: 50%; text-align: left; margin: 0; ">Zaman(s,m,h,d)</div>
+            <% if (db.has(`çekiliş_${guild.id}.time`) === false) { %>
+     <input type="text" class="form-control u-btn-round" name="çt" id="çt" placeholder="5m">
+         <% } %>
+        <% if (db.has(`çekiliş_${guild.id}.time`) === true) { %>
+       <input type="text" class="form-control u-btn-round"name="çt" id="çt" placeholder="<%=db.get(`çekiliş_${guild.id}.time`)%>">
+         <% } %>
+      </div>
+   <div class="input-group mb-2 mr-sm-2 mb-sm-0" style="margin: 0">
+          <div class="select">    
+         <select d="çk" name="çk">
+            <% if (db.has(`çekiliş_${guild.id}.channel`) === false) { %>
+       <option disabled selected> Çekiliş Kanal </option><br>
+             <% } %>
+            <% if (db.has(`çekiliş_${guild.id}.channel`) === true) { %>
+            <option disabled selected> Çekiliş Kanal : <%= çekilişlog%> </option>
+             <% } %>
+            <% const kanallar = guild.channels.cache.sort((a, b) => a.position - b.position) %>
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+           </div>
+           </div>
+           <br>
+    <br>
+      <div style="width: 100%; text-align: left; margin-top: -5px;">
+        	 <a class="u-btn-round"><a class="btn btn-primary u-btn-round" href="/dashboard/<%= guild.id %>/fun/cekilis">Çekilişi başlatmak için tıkla</a></a>
+        	 <a class="u-btn-round"><a class="btn btn-primary u-btn-round" href="/dashboard/<%= guild.id %>/fun/cekilis/reset">Sıfırla</a></a>
+      </div>
+  
+   <br>
+   <br>
+             </div>
+        </div>
+       
+     
+         
+     
+           
+      
+      <div style="width: 100%; text-align: right; margin-top: 20px;">
+         <a  type="submit" class="btn btn-primary u-btn-round"    onclick="window.location.href='/dashboard/<%= guild.id %>/manage'"><i class="fa fa-reply "></i> Geri<i aria-hidden='true'></i></a>
+        				<a  type="submit" class="btn btn-danger u-btn-round"  onclick="myFunction2()"><i class="fa fa-fw fa-sign-out"></i> Botu At<i aria-hidden='true'></i></a>
+<a type="submit" class="btn btn-primary u-btn-round"  onclick="myFunction1()"><i class="fa fa-fw fa-cogs" aria-hidden="true"></i>Ayarları Sıfırla</a>
+					<button  type="submit"class="btn btn-primary u-btn-round" onclick="myFunction()"><i class="fa fa-save fa-save"></i> Ayarları Kaydet<i aria-hidden='true'></i></button>
+        
+      </div>
+    </div>
+  </div>
+    </form>
+ <script>
+                 var urlParams = new URLSearchParams(window.location.search);
+           function myFunction() {
+                    Swal.fire({
+               toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 750,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  },
+ 
+  icon: 'success',
+  title: 'Ayarlarınız kaydedildi.'
+ 
+})
+     
+            }
+             function myFunction1() {
+          Swal.fire({
+  title: 'Emin misin?',
+  text: "Eğer sıfırlarsan geri dönüşü olmaz.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+              cancelButtonText: 'İptal',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Sıfırla!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+       position: 'top-end',
+  icon: 'success',
+  title: 'Başarıyla bütün ayarların sıfırlandı.',
+  showConfirmButton: false,
+  timer: 2000
+     
+   } )
+     window.location.href = `/dashboard/<%= guild.id %>/reset`;
+  }
+})
+               }
+          function myFunction2() {
+          Swal.fire({
+  title: 'Emin misin?',
+  text: "Cidden beni atmak mı istiyorsun?.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+            cancelButtonText: 'İptal',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'At!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+       position: 'top-end',
+  icon: 'success',
+  title: 'Başarıyla bot atıldı',
+  showConfirmButton: false,
+  timer: 2000
+     
+   } )
+     window.location.href = ``;
+  }
+})
+               }
+            if(urlParams.has('error') && urlParams.get('error')){
+            Swal.fire({
+             icon: 'error',
+             title: 'Tüh',
+             text: 'Hata oluştu.',
+             footer: ''
+            }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = `/dashboard/<%= guild.id %>/manage`;
+          }    
+        })
+            }
+     
+           </script>
+                   
+                        <body oncontextmenu="return false">
+ <SCRIPT language=JavaScript>
+
+    
+
+    var message = "**Bu sayfada rightclik basamassın**";
+
+    function rtclickcheck(keyp){ if (navigator.appName == "Netscape" && keyp.which == 3){ alert(message); return false; }
+
+    if (navigator.appVersion.indexOf("MSIE") != -1 && event.button == 2) { alert(message); return false; } }
+
+    document.onmousedown = rtclickcheck;
+
+    </SCRIPT>
+
+      <% include ../blocks/guild-modals1 %>
+<% include ../blocks/guild-modals %>
+<% include ../blocks/foot.ejs %>

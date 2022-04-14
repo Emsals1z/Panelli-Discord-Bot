@@ -1,0 +1,185 @@
+<%- include('blocks/header', {bot, user, path}) %>
+
+    <title>İstatistik</title>
+   
+  
+     
+          <!-- Start Counter -->
+    <script>
+          var a = 0;
+$(window).scroll(function() {
+
+  var oTop = $('.mu-single-counter').offset().top - window.innerHeight;
+  if (a == 0 && $(window).scrollTop() > oTop) {
+    $('.counter-value').each(function() {
+      var $this = $(this),
+        countTo = $this.attr('data-count');
+      $({
+        countNum: $this.text()
+      }).animate({
+          countNum: countTo
+        },
+
+        {
+
+          duration: 2000,
+          easing: 'swing',
+          step: function() {
+            $this.text(Math.floor(this.countNum));
+          },
+          complete: function() {
+            $this.text(this.countNum);
+            //alert('finished');
+          }
+
+        });
+    });
+    a = 1;
+  }
+
+});
+            
+          </script>
+            
+  <script>
+  document.addEventListener('DOMContentLoaded', function(event) {
+    var typed = new Typed('#typedCommands1', {
+      strings: ['<%= stats.uptime %>'],
+      typeSpeed: 200,
+      backSpeed: 150,
+      loop: false
+    });
+  });
+      document.addEventListener('DOMContentLoaded', function(event) {
+    var typed = new Typed('#typedCommands2', {
+      strings: ['v'+'<%= stats.dVersion %>'],
+      typeSpeed: 200,
+      backSpeed: 150,
+      loop: false
+    });
+  });
+    document.addEventListener('DOMContentLoaded', function(event) {
+    var typed = new Typed('#typedCommands3', {
+      strings: ['<%= stats.nVersion %>'],
+      typeSpeed: 200,
+      backSpeed: 150,
+      loop: false
+    });
+  });
+  </script>
+		   <section class="bg-emsalsiz jumbotron">
+      <h3 align="center" style="color:#91a4e8;">Bot İstatistikleri</h3>
+      <div class="container" style="color:#91a4e8;"align="center" >Aşağı kaydır
+      <div class="select arrow" align="center" style="float:left;color:#91a4e8;"></div>
+      </div>
+      
+      	
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="mu-counter-area">
+
+							<div class="mu-counter-block">
+								<div class="row">
+									<span class="mu-header-dot"></span></br></br>
+
+									<!-- Start Single Counter -->
+									<div class="col-sm-6 col-md-4">
+										<div class="mu-single-counter">
+											<i class="fa fa-files-o" style="color: #ffc1c1; background-color: #23272a;" aria-hidden="true"></i>
+											<div class="counter-value" data-count="<%= stats.text + stats.voice %>">0</div>
+											<h5 class="mu-counter-name">Kanallar</h5>
+										</div>
+									</div>
+									<!-- / Single Counter -->
+
+									<!-- Start Single Counter -->
+									<div class="col-sm-6 col-md-4">
+										<div class="mu-single-counter">
+											<i class="fa fa-server"style="color: #ffc1c1; background-color: #23272a;"  aria-hidden="true"></i>
+											<div class="counter-value" data-count="<%= stats.servers %>">0</div>
+											<h5 class="mu-counter-name">Sunucular</h5>
+										</div>
+									</div>
+									<!-- / Single Counter -->
+
+									<!-- Start Single Counter -->
+									<div class="col-sm-6 col-md-4">
+										<div class="mu-single-counter">
+											<i class="fa fa-users" style="color: #ffc1c1; background-color: #23272a;" aria-hidden="true"></i>
+											<div class="counter-value" data-count="<%= stats.members %>">0</div>
+											<h5 class="mu-counter-name">Üyeler</h5>
+										</div>
+									</div>
+									<!-- / Single Counter -->
+
+								</div>
+          </br></br></br></br>
+            			<div class="row">
+									<span class="mu-header-dot"></span></br></br>
+
+									<!-- Start Single Counter -->
+									<div class="col-sm-6 col-md-4">
+										<div class="mu-single-counter">
+											<i class="fa fa-cogs" style="color: #ffc1c1; background-color: #23272a;" aria-hidden="true"></i>
+												</br>
+                    <span style="font-size: 40px;" id="typedCommands2"></span>
+											<h5 class="mu-counter-name">Discord.js</h5>
+										</div>
+									</div>
+									<!-- / Single Counter -->
+
+									<!-- Start Single Conter -->
+									<div class="col-sm-6 col-md-4">
+										<div class="mu-single-counter">
+											<i class="fa fa-clock-o" style="color: #ffc1c1; background-color: #23272a;" aria-hidden="true"></i>
+											</br>
+                    <span style="font-size: 40px;" id="typedCommands1"></span>
+											<h5 class="mu-counter-name">Uptime</h5>
+										</div>
+									</div>
+									<!-- / Single Counter -->
+
+									<!-- Start Single Counter -->
+									<div class="col-sm-6 col-md-4">
+										<div class="mu-single-counter">
+											<i class="fa fa-cog" style="color: #ffc1c1; background-color: #23272a;"  aria-hidden="true"></i>
+											</br>
+                    <span style="font-size: 40px;" id="typedCommands3"></span>
+											<h5 class="mu-counter-name">Node.js</h5>
+										</div>
+									</div>
+									<!-- / Single Counter -->
+
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</section>
+		<!-- End Counter -->
+
+
+      
+  </div>
+  </div>
+<body oncontextmenu="return false">
+ <SCRIPT language=JavaScript>
+
+  
+
+    var message = "**Bu sayfada rightclik basamassın**";
+
+    function rtclickcheck(keyp){ if (navigator.appName == "Netscape" && keyp.which == 3){ alert(message); return false; }
+
+    if (navigator.appVersion.indexOf("MSIE") != -1 && event.button == 2) { alert(message); return false; } }
+
+    document.onmousedown = rtclickcheck;
+
+    </SCRIPT>
+
+  <% include ./blocks/footer %>

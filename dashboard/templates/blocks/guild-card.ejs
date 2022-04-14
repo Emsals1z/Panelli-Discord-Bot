@@ -1,0 +1,61 @@
+<div class="btn btn-primary u-btn-round"style="background-color: #91a4e8;" style=" ;width: 318px;">
+  <% if (guild.icon) {      %>
+    <img class="card-img-top" style=" ;width: 100%; border-radius: 50%;" src="<%= `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=512` %>" alt="<%= guild.name %>">
+  <% } else { %>
+  <img class="card-img-top" style=" ;width: 100%; border-radius: 50%;" src="<%= `https://cdn.discordapp.com/icons/687310958514929684/28a75d384403ba876d540409c9853386.png?size=512` %>">
+  
+    <script>
+      function draw() {
+        const ctx = document.getElementById("<%= guild.name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+        ctx.font = '128px Arial';
+        ctx.textAlign = "center";
+        ctx.fillStyle = "white";
+      ctx.textBaseline = "middle";
+        ctx.fillText("<%= guild.name.split(' ').map(v => v[0]).join('') %>", 159, 159);
+      };
+      draw();
+    </script>
+  <% } %>
+    <div class="card-body u-btn-round">
+       <li class="list-group-item u-btn-round" ><strong>Sunucu</strong> : <i class="fa fa-fw fa-server" aria-hidden="true"></i> <%= guild.name %> </li>
+      <ul class="list-group list-group-flush u-btn-round" style="width: 100%">
+        <li class="list-group-item" style="width: 100%"><strong>Sahip</strong> : <i class="fa fa-fw fa-user-circle-o" aria-hidden="true"></i> <%= guild.owner.user.username %></li>
+        <li class="list-group-item"><strong>Üye Sayısı</strong> : <i class="fa fa-fw fa-users" aria-hidden="true"></i> <%= `${guild.memberCount}` %> (<i class="fa fa-fw fa-android" aria-hidden="true"></i> <%= `${guild.members.cache.filter(m => m.user.bot).size}` %> Bot )</li>
+        <li class="list-group-item"><strong>Rol Sayısı</strong> : <i class="fa fa-fw fa-users" aria-hidden="true"></i> <%= guild.roles.cache.size %></li>
+        <li class="list-group-item"><strong>Kanal Sayısı</strong> : <i class="fa fa-fw fa-hashtag" aria-hidden="true"></i> <%= `${guild.channels.cache.filter(c => c.type === 'text').size}`%> <i class="fa fa-fw fa-microphone" aria-hidden="true"></i> <%= `${guild.channels.cache.filter(c => c.type === 'voice').size}`%></li>
+      </ul>
+      <br>
+				
+  
+    </div>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.btn {
+  background-color: #696969;
+  border: none;
+  color: #b5b5b5;
+  padding: 5px 16px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background-color: #91a4e8;;
+  color: white;
+}
+</style>
+</head>
+<body>
+
+
+
+</body>
+</html>
+
+<a ><a class="btn u-btn-round" href="/dashboard/<%= guild.id %>/members">Üyeler</a></a>
+  </div>

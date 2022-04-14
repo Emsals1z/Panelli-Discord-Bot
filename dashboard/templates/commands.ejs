@@ -1,0 +1,147 @@
+<%- include('blocks/header', {bot, user, path}) %>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" />
+<title>Komutlar</title>
+<% const help = {};
+bot.commands.forEach((command) => {
+  const cat = command.help.kategori;
+  if (!help.hasOwnProperty(cat)) help[cat] = [];
+  help[cat].push(command);
+});
+%>
+ 
+
+    
+
+
+<div class="mt-5 container" >
+<div class="alert" style="background:#fff; border-radius: 15px; color: rgb(201, 195, 195); border: 1px solid #91a4e8;"><i class="fas fa-exclamation-triangle"></i> Lütfen bütün komutları çalıştırmak için bu komutları <kbd>!</kbd> prefixi ile yazın.</div>
+  
+  <div class="table-responsive">
+  
+<table class="table table-borderless shadow" style="background:#91a4e8; border-radius: 15px; color: #fff;">
+<thead class="text-center">
+<tr>
+<th>Komut</th>
+<th>Kategori</th>
+<th>Açıklama</th>
+<th></th>
+</tr>
+</thead>
+   <% for (const kategori in help) { %>
+<tbody>
+  <% for (const command of help[kategori]) { %>
+<tr>
+<td style="text-align:center; font-family:Poppins;"><%= command.help.name %></td>
+<td style="text-align:center"><%= kategori %></td>
+<td style="text-align:left"><%= command.help.description %></td>
+</tr>
+ <% } %>
+  
+</tbody>
+     <% } %>
+</table>
+ 
+</div>
+
+</div>
+    <br>
+  
+  <a id="button1"></a>
+<style>#button1 {
+  display: inline-block;
+  background-color: "\f077";
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 4px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  transition: background-color .3s, 
+    opacity .5s, visibility .5s;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+}
+#button1::after {
+  content: "\f077";
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 2em;
+  line-height: 50px;
+  color: #fff;
+}
+#button1:hover {
+ 
+  cursor: pointer;
+  background-color: #91a4e8;
+}
+#button1:active {
+  background-color: #555;
+}
+#button1.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Styles for the content section */
+
+.content {
+  width: 77%;
+  margin: 50px auto;
+
+  line-height: 1.9;
+}
+@media (min-width: 500px) {
+  .content {
+    width: 43%;
+  }
+  #button1 {
+    margin: 30px;
+  }
+}
+.content h1 {
+  margin-bottom: -10px;
+
+  line-height: 1.5;
+}
+.content h3 {
+
+  color: #96a2a7;
+}
+</style>
+<script>
+var btn = $('#button1');
+
+$(window).scroll(function() {
+  if ($(window).scrollTop() > 300) {
+    btn.addClass('show');
+  } else {
+    btn.removeClass('show');
+  }
+});
+
+btn.on('click', function(e) {
+  e.preventDefault();
+  $('html, body').animate({scrollTop:0}, '300');
+});
+
+
+</script>
+<body oncontextmenu="return false">
+ <SCRIPT language=JavaScript>
+
+  
+
+    var message = "**Bu sayfada rightclik basamassın**";
+
+    function rtclickcheck(keyp){ if (navigator.appName == "Netscape" && keyp.which == 3){ alert(message); return false; }
+
+    if (navigator.appVersion.indexOf("MSIE") != -1 && event.button == 2) { alert(message); return false; } }
+
+    document.onmousedown = rtclickcheck;
+
+    </SCRIPT>
+
+<% include ./blocks/footer %>

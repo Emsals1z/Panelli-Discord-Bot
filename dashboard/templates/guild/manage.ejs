@@ -1,0 +1,469 @@
+<%- include('../blocks/head', {bot, user, path}) %>
+    <link rel="stylesheet" href="/public/css/dashboard1.css" />
+    <link rel="stylesheet" href="/public/css/bulma.css" />
+    <link rel="stylesheet" href="/public/js/style.js" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<head>
+
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/loader.css" rel="stylesheet" type="text/css" />
+    <script src="https://designreset.com/cork/ltr/demo9/assets/js/loader.js"></script>
+    <link href="https://pro.fontawesome.com/releases/v5.13.1/css/all.css" rel="stylesheet">
+    <link href="/public/css/admin.css" rel="stylesheet">
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
+    <link href="https://designreset.com/cork/ltr/demo9/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/plugins.css" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <link href="https://designreset.com/cork/ltr/demo9/plugins/apex/apexcharts.css" rel="stylesheet" type="text/css">
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/dashboard/dash_1.css" rel="stylesheet" type="text/css" class="dashboard-analytics" />
+    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://designreset.com/cork/ltr/demo9/plugins/table/datatable/datatables.css">
+    <link rel="stylesheet" type="text/css" href="https://designreset.com/cork/ltr/demo9/plugins/table/datatable/dt-global_style.css">
+  
+</head>
+  
+
+
+
+
+
+<div id="content" class="main-content">
+<form method="post">
+
+
+
+
+
+     <div class="page-header">
+         <nav class="breadcrumb-one" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/dashboard">Panel</a></li>
+                    <li class="breadcrumb-item active"><a href="/dashboard/<%= guild.id %>/manage">Ana Sayfa</a></li>
+                </ol>
+            </nav>
+           
+      </div>
+      
+      <div class="row layout-top-spacing" id="cancel-row">
+         <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+        <div align="center" class="widget widget-one">
+            <% if (guild.icon) {      %>
+   <img class="card-img-top" style=" ;width: 50%; border-radius: 50%;" src="<%= `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=512` %>" alt="<%= guild.name %>">
+                   <li class="list-group-item u-btn-round" ><strong>Sunucu</strong> : <i class="fa fa-fw fa-server" aria-hidden="true"></i> <%= guild.name %> </li>
+        <li class="list-group-item" style="width: 100%"><strong>Sahip</strong> : <i class="fab fa-creative-commons-by" aria-hidden="true"></i> <%= guild.owner.user.username %></li>
+        <li class="list-group-item"><strong>Üye Sayısı</strong> : <i class="fa fa-fw fa-users" aria-hidden="true"></i> <%= `${guild.memberCount}` %> (<i class="fad fa-robot" aria-hidden="true"></i> <%= `${guild.members.cache.filter(m => m.user.bot).size}` %> Bot )</li>
+        <li class="list-group-item"><strong>Rol Sayısı</strong> : <i class="fa fa-fw fa-users" aria-hidden="true"></i> <%= guild.roles.cache.size %></li>
+        <li class="list-group-item"><strong>Kanal Sayısı</strong> : <i class="fa fa-fw fa-hashtag" aria-hidden="true"></i> <%= `${guild.channels.cache.filter(c => c.type === 'text').size}`%> <i class="fa fa-fw fa-microphone" aria-hidden="true"></i> <%= `${guild.channels.cache.filter(c => c.type === 'voice').size}`%></li>
+    <li class="list-group-item"><a class="btn btn-primary u-btn-round"href="/dashboard/<%= guild.id %>/members">Üyeler</a></li>
+  <% } else { %>
+  <img class="card-img-top" style=" ;width: 50%; border-radius: 50%;" src="<%= `https://cdn.discordapp.com/icons/687310958514929684/28a75d384403ba876d540409c9853386.png?size=512` %>">
+  
+    <script>
+      function draw() {
+        const ctx = document.getElementById("<%= guild.name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+        ctx.font = '60px Arial';
+        ctx.textAlign = "center";
+        ctx.fillStyle = "white";
+      ctx.textBaseline = "middle";
+        ctx.fillText("<%= guild.name.split(' ').map(v => v[0]).join('') %>", 60, 60);
+      };
+      draw();
+    </script>
+  <% } %>
+
+
+
+
+           </div>
+          </div>
+      
+       <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                        <div class="widget widget-one">
+                          
+                            <div class="widget-heading">
+          
+               <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Audit Log</label>
+                           
+                            </div>
+                       
+
+                      
+
+
+
+
+ 
+        <div class="widget widget-one">
+   
+    
+
+ 
+   
+     
+      <h6><%= aa %></h6>
+      <h6><%= b %></h6>
+      <h6><%= c %></h6>
+      <h6><%= d %></h6>
+      <h6><%= f %></h6>
+
+      
+           </div>
+                       <br>
+                          <div class="widget widget-one">
+          <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Prefix</label>
+            <% if (db.has(`prefix_${guild.id}`) === false) { %>
+     <input type="text" class="form-control" name="prefix" id="prefix" placeholder="Örnek : !">
+         <% } %>
+        <% if (db.has(`prefix_${guild.id}`) === true) { %>
+      
+       <input type="text" class="form-control"  name="prefix" id="prefix" placeholder="<%=db.get(`prefix_${guild.id}`)%>">
+         <% } %>
+      </div>
+        
+        
+ 
+
+
+                              
+                            
+                          
+                        
+                                                  </div>
+                      </div>
+<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+     <div class="widget widget-one">
+         
+        <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Komut Yasaklama</label>
+          <%          
+          let arr = [];
+bot.commands.forEach(x => {
+if (!arr.includes(x.help.name)) {
+arr.push(x.help.name)
+}
+})
+     
+          
+   %>
+
+                <br>
+            <br>
+   
+        <div class="col-25">
+        
+        </div>
+        <div class="select">
+      
+          <select name="kYasak" id="kYasak">
+            <option disabled selected>Sunucunuzda yasaklamak istediğiniz bir komut </option>
+            <% arr.forEach(r => {  %>
+            <option value="<%=r%>" style="color:#fffff"><%=r%></option>
+            <% }); %>
+          </select>
+        
+           </div>
+     <br>
+  
+          
+            <%if(db.fetch(`yasakK_${guild.id}`) === null || db.fetch(`yasakK_${guild.id}`).length <= 0) {%>
+      
+               <h5 align="left" style="background-color:#696969; color: #fff">
+                    Bu sunucuda komut yasaklanmamış.
+              </h5>
+        
+            <%} else {%>
+          <style>
+
+        </style>
+        <br>
+          <table class="table table-hover u-btn-round" style="background-color:#696969 ;">
+            <thead>
+                <tr>
+                  <th scope="col">Komut</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                    <%for(var i = 0; i < db.fetch(`yasakK_${guild.id}`).length; i++) {%>
+              <%var k = db.fetch(`yasakK_${guild.id}`).includes(i) %>
+              <tr>
+                  <th scope="row"><%=db.fetch(`yasakK_${guild.id}`)[i]%></th>
+            <td style="width:20%;"><a class="btn btn-primary u-btn-round" style="width:100%background-color:#696969"href="/dashboard/<%=guild.id%>/komut-yasak/sil/<%=db.fetch(`yasakK_${guild.id}`)[i]%>">Yasağı kaldır</a></td>
+                 </tr>
+                  <%}%>
+            </tbody>
+        </table>
+              <%}%>
+             
+            </tbody>
+        </table>
+   
+</div>
+  
+  </div>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                <div class="row layout-top-spacing">
+        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                   
+                          
+        
+                         
+
+           
+
+  
+ <% 
+        let href, text;
+        let enabled;
+     
+          href = `/dashboard/${guild.id}/general`;
+          text = "Genel Ayarlar";
+          enabled = true;
+        
+        %> 
+
+   
+        <span onclick="window.location.href='<%= href %>'"> <div align="center" class="widget widget-one">
+    <% if (guild.icon) { %>
+    
+      <img class="d-flex mr-3 rounded-circle" src="<%= `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=1024` %>" style="width: 160px;" alt="">
+    <% } else { %>
+      <canvas style="background-color: #91a4e8" class="d-flex mr-3 rounded-circle" id="<%= guild.name.split(' ').join('').replace(`'`, ``) %>" width="160px" height="160px"></canvas>
+      <script>
+        
+        function draw() {
+          const ctx = document.getElementById("<%= guild.name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+          ctx.font = '15px Arial';
+          ctx.textAlign = "center";
+          ctx.fillStyle = "white";
+          ctx.fillText("<%= guild.name.split(' ').map(v => v[0]).join('') %>", 40, 50);
+        };
+        draw();
+      </script>
+    <% } %>
+   
+     
+      <h4><span> <%= text %> </span></h4>
+        <h7>Açmak için tıkla</h7>
+          
+           </div></span>
+      
+ 
+ <% 
+        let href1, text1;
+        let enabled1;
+     
+          href1 = `/dashboard/${guild.id}/logs`;
+          text1= "Loglar";
+          enabled1 = true;
+        
+        %> 
+                             
+                      </div>
+        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+         <span onclick="window.location.href='<%= href1 %>'"> <div align="center" class="widget widget-one">
+    <% if (guild.icon) { %>
+    
+      <img class="d-flex mr-3 rounded-circle" src="<%= `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=1024` %>" style="width: 160px;" alt="">
+    <% } else { %>
+      <canvas style="background-color: #91a4e8" class="d-flex mr-3 rounded-circle" id="<%= guild.name.split(' ').join('').replace(`'`, ``) %>" width="160px" height="160px"></canvas>
+      <script>
+        
+        function draw() {
+          const ctx = document.getElementById("<%= guild.name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+          ctx.font = '15px Arial';
+          ctx.textAlign = "center";
+          ctx.fillStyle = "white";
+          ctx.fillText("<%= guild.name.split(' ').map(v => v[0]).join('') %>", 40, 50);
+        };
+        draw();
+      </script>
+    <% } %>
+   
+     
+      <h4><span> <%= text1 %> </span></h4>
+        <h7>Açmak için tıkla</h7>
+          
+           </div></span>
+          
+          
+          </div>
+        <% 
+        let href2, text2;
+        let enabled2;
+     
+          href2 = `/dashboard/${guild.id}/fun`;
+          text2= "Eğlence Komutları";
+          enabled1 = true;
+        
+        %> 
+        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+         <span onclick="window.location.href='<%= href2 %>'"> <div align="center" class="widget widget-one">
+    <% if (guild.icon) { %>
+    
+      <img class="d-flex mr-3 rounded-circle" src="<%= `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=1024` %>" style="width: 160px;" alt="">
+    <% } else { %>
+      <canvas style="background-color: #91a4e8" class="d-flex mr-3 rounded-circle" id="<%= guild.name.split(' ').join('').replace(`'`, ``) %>" width="160px" height="160px"></canvas>
+      <script>
+        
+        function draw() {
+          const ctx = document.getElementById("<%= guild.name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+          ctx.font = '15px Arial';
+          ctx.textAlign = "center";
+          ctx.fillStyle = "white";
+          ctx.fillText("<%= guild.name.split(' ').map(v => v[0]).join('') %>", 40, 50);
+        };
+        draw();
+      </script>
+    <% } %>
+   
+     
+      <h4><span> <%= text2 %> </span></h4>
+        <h7>Açmak için tıkla</h7>
+          
+           </div></span>
+          
+           </div>
+          </div>
+  </div>
+         
+ 
+         
+        
+        
+  </form>
+     <br>
+            <br>
+      </ul>
+
+      <div style="width: 100%; text-align: right; margin-top: 20px;">
+            
+        					<a  type="submit" class="btn btn-danger u-btn-round" onclick="myFunction2()"><i class="fa fa-fw fa-sign-out" aria-hidden="true"></i>Botu At</a>
+<a type="submit" class="btn btn-primary u-btn-round" onclick="myFunction1()"><i class="fa fa-fw fa-cogs" aria-hidden="true"></i>Ayarları Sıfırla</a>
+
+	<button  type="submit"class="mr-2 btn btn-primary success" onclick="myFunction()"><i class="fa fa-save fa-save"></i> Ayarları Kaydet<i aria-hidden='true'></i></button>
+     
+      </div>
+ </div>
+
+     </div>
+     </form>
+        <script>
+ 
+    function submitForm() { // submits form
+        document.getElementById("ismForm").submit();
+    }
+
+ 
+                 var urlParams = new URLSearchParams(window.location.search);
+      
+           function myFunction() {
+            
+
+
+  //your code to be executed after 1 second
+
+             Swal.fire({
+               toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 750,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  },
+ 
+  icon: 'success',
+  title: 'Ayarlarınız kaydedildi.'
+ 
+})
+   
+            }
+   
+             function myFunction1() {
+          Swal.fire({
+  title: 'Emin misin?',
+  text: "Eğer sıfırlarsan geri dönüşü olmaz.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+               cancelButtonText: 'İptal',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Sıfırla!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+       position: 'top-end',
+  icon: 'success',
+  title: 'Başarıyla bütün ayarların sıfırlandı.',
+  showConfirmButton: false,
+  timer: 2000
+     
+   } )
+     window.location.href = `/dashboard/<%= guild.id %>/reset`;
+  }
+})
+               }
+          function myFunction2() {
+          Swal.fire({
+  title: 'Emin misin?',
+  text: "Cidden beni atmak mı istiyorsun?.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+            cancelButtonText: 'İptal',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'At!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+       position: 'top-end',
+  icon: 'success',
+  title: 'Başarıyla bot atıldı',
+  showConfirmButton: false,
+  timer: 2000
+     
+   } )
+     window.location.href = ``;
+  }
+})
+               }
+            if(urlParams.has('error') && urlParams.get('error')){
+            Swal.fire({
+             icon: 'error',
+             title: 'Tüh',
+             text: 'Hata oluştu.',
+             footer: ''
+            }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = `/dashboard/<%= guild.id %>/manage`;
+          }    
+        })
+            }
+     
+           </script>
+                        <body oncontextmenu="return false">
+ <SCRIPT language=JavaScript>
+
+
+
+    var message = "**Bu sayfada rightclik basamassın**";
+
+    function rtclickcheck(keyp){ if (navigator.appName == "Netscape" && keyp.which == 3){ alert(message); return false; }
+
+    if (navigator.appVersion.indexOf("MSIE") != -1 && event.button == 2) { alert(message); return false; } }
+
+    document.onmousedown = rtclickcheck;
+
+    </SCRIPT>
+
+      <% include ../blocks/guild-modals1 %>
+<% include ../blocks/guild-modals %>
+<% include ../blocks/foot.ejs %>

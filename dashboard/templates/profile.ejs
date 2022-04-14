@@ -1,0 +1,96 @@
+<%- include('blocks/header', {bot, user, path}) %>
+<title>Profil</title>
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+<div class="container px-3 px-3 mt-5 pt-5">
+ 
+   <section class="bg-emsalsiz jumbotron" id="sec-5c33">
+ <div class="column is-2">
+            <img draggable="false" class="pulse-avatar-<%=member.presence.status%>"  onerror=" imgerror(this);"="" src="<%= member.avatarURL({dynamic: true}) %>" style="width: 300px; border-radius: 50%;">
+        </div>
+   
+      <div class="column is-6">
+        
+            <p class="UserName is-size-2 has-text-white"> <%= member.username %><small class="is-size-5">#<%=member.discriminator%></small> <i class="status-circle fad fa-circle status-<%=member.presence.status%>"></i></p>
+        <br>
+           <br>  
+        <% if(user.id === "422432559830401027") { %>
+                <span data-tooltip="Coder" data-tooltip-location="top"> 
+                <i class="fad fa-crown has-text-danger" style="bottom: -5px; font-size: 26px;"></i>
+                                   </span>
+        
+            <% } %>
+           
+                <% if(member.flags) {%>
+                <%
+                            member.flags.toArray().forEach(flag =>{
+                                if (flag === "HOUSE_BALANCE") { %>
+                                    <span data-tooltip="Hypesquad Balance"
+                                    data-tooltip-location="top">
+                                    <img draggable="false" src="https://raw.githubusercontent.com/Mattlau04/Discord-SVG-badges/4466e3e494c9d13cc9267728a74e0d31825ebc32/SVG/HypeSquad_Balance.svg" data-tooltip="Hypesquad Balance" class="tippy mr-1" data-tippy-content="Hypesquad Balance" width="32px">
+                                </span>
+                                    <% }
+                
+                               if (flag === "HOUSE_BRILLIANCE") { %>
+                                <span data-tooltip="Hypesquad Brilliance"
+                                    data-tooltip-location="top">
+                               <img draggable="false" src="https://raw.githubusercontent.com/Mattlau04/Discord-SVG-badges/4466e3e494c9d13cc9267728a74e0d31825ebc32/SVG/HypeSquad_Brilliance.svg" class="mr-1" data-tippy-content="HypeSquad Brilliance" width="32px">
+                               </span>
+                               <% }
+                
+                               if (flag === "HOUSE_BRAVERY") { %>
+                                <span data-tooltip="Hypesquad Bravery"
+                                    data-tooltip-location="top">
+                               <img draggable="false" src="https://raw.githubusercontent.com/Mattlau04/Discord-SVG-badges/4466e3e494c9d13cc9267728a74e0d31825ebc32/SVG/HypeSquad_Bravery.svg" class=" mr-1" data-tippy-content="HypeSquad Bravery" width="32px">
+                          </span>
+                               <% }
+                                               if (flag === "EARLY_VERIFIED_BOT_DEVELOPER") { %>
+                                <span data-tooltip="Bot Developer"
+                                    data-tooltip-location="top">
+                               <img draggable="false" src="https://raw.githubusercontent.com/Mattlau04/Discord-SVG-badges/4466e3e494c9d13cc9267728a74e0d31825ebc32/SVG/Verified_Bot_Developer.svg" class=" mr-1" data-tippy-content="HypeSquad Bravery" width="32px">
+                          </span>
+                               <% }
+                        
+                               if (flag === "EARLY_SUPPORTER") { %>
+                                <span data-tooltip="Early Supporter"
+                                    data-tooltip-location="top">
+                               <img draggable="false" src="https://raw.githubusercontent.com/Mattlau04/Discord-SVG-badges/4466e3e494c9d13cc9267728a74e0d31825ebc32/SVG/early_supporter.svg" class=" mr-1" data-tippy-content="Early Supporter" width="32px">
+                               </span>
+                               <% }
+                              
+                            })
+                            %>
+                            <% } %>
+                          <% let av = member.avatarURL({dynamic: true}) %>
+                          <% if(av.endsWith('.gif')) {%>
+                            <span data-tooltip="Nitro Subscriber"
+                                    data-tooltip-location="top">
+                            <img draggable="false" src="https://discord.com/assets/386884eecd36164487505ddfbac35a9d.svg" class="mr-1" data-tippy-content="Nitro Subscriber" width="32px">
+                            </span>
+                            <% } %>            
+          
+          
+	    <li class="nav-item">
+        <a>Hesap Açma Tarihi:</a>
+         <a><%=gün%>/<%=ay%>/<%=yıl%></a>
+    </li>
+        	    <li class="nav-item">
+        <a>Durum Mesajı:</a>
+         <a><%=f%></a>
+      </div>
+        </div>
+</selection>
+ <SCRIPT language=JavaScript>
+
+  
+
+    var message = "**Bu sayfada rightclik basamassın**";
+
+    function rtclickcheck(keyp){ if (navigator.appName == "Netscape" && keyp.which == 3){ alert(message); return false; }
+
+    if (navigator.appVersion.indexOf("MSIE") != -1 && event.button == 2) { alert(message); return false; } }
+
+    document.onmousedown = rtclickcheck;
+
+    </SCRIPT>
+
+  <% include ./blocks/footer %>

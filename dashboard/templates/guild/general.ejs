@@ -1,0 +1,580 @@
+
+<%- include('../blocks/head', {bot, user, path}) %>
+    <link rel="stylesheet" href="/public/css/dashboard1.css" />
+    <link rel="stylesheet" href="/public/css/bulma.css" />
+    <link rel="stylesheet" href="/public/js/style.js" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<head>
+
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/loader.css" rel="stylesheet" type="text/css" />
+    <script src="https://designreset.com/cork/ltr/demo9/assets/js/loader.js"></script>
+    <link href="https://pro.fontawesome.com/releases/v5.13.1/css/all.css" rel="stylesheet">
+    <link href="/public/css/admin.css" rel="stylesheet">
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
+    <link href="https://designreset.com/cork/ltr/demo9/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/plugins.css" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <link href="https://designreset.com/cork/ltr/demo9/plugins/apex/apexcharts.css" rel="stylesheet" type="text/css">
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/dashboard/dash_1.css" rel="stylesheet" type="text/css" class="dashboard-analytics" />
+    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://designreset.com/cork/ltr/demo9/plugins/table/datatable/datatables.css">
+    <link rel="stylesheet" type="text/css" href="https://designreset.com/cork/ltr/demo9/plugins/table/datatable/dt-global_style.css">
+  
+</head>
+
+
+
+  
+
+
+<div id="content" class="main-content">
+    <form method="post">
+         <div class="page-header">
+         <nav class="breadcrumb-one" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="/dashboard">Panel</a></li>
+                    <li class="breadcrumb-item active"><a href="/dashboard/<%= guild.id %>/manage">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item active"><a href="/dashboard/<%= guild.id %>/fun">Genel</a></li>
+                </ol>
+            </nav>
+           
+      </div>
+   <div class="row layout-top-spacing" id="cancel-row">
+         
+     <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+ 
+ 
+  <div class="widget widget-one">
+          
+  <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Tepki Rol</label>
+      <br>
+   <br>
+      <div class="input-group mb-2 mr-sm-2 mb-sm-0" >
+            <div class="input-group-addon" style="width: 50%; text-align: left; margin: 0;">Yazı</div>
+            <% if (db.has(`rr_${guild.id}.text`) === false) { %>
+     <input type="text" class="form-control u-btn-round"  name="yazı" id="yazı" placeholder="Tepkiye basarak rol al">
+         <% } %>
+        <% if (db.has(`rr_${guild.id}.text`) === true) { %>
+       <input type="text" class="form-control u-btn-round"  name="yazı" id="yazı" placeholder="<%=db.get(`rr_${guild.id}.text`)%>">
+         <% } %>
+      </div>
+   
+    <div class="input-group mb-2 mr-sm-2 mb-sm-0" >
+     <div class="input-group-addon" style="width: 50%; text-align: left; margin: 0; ">Emoji</div>
+            <% if (db.has(`rr_${guild.id}.emoji`) === false) { %>
+     <input type="text" class="form-control u-btn-round" style=" text-align: center; 4px inherit #fff; text-align: center;color:#ffff;" name="emoji" id="emoji" placeholder="✅">
+         <% } %>
+        <% if (db.has(`rr_${guild.id}.emoji`) === true) { %>
+       <input type="text" class="form-control u-btn-round"  name="emoji" id="emoji" placeholder="<%=db.get(`rr_${guild.id}.emoji`)%>">
+         <% } %>
+      </div>
+   <div class="input-group mb-2 mr-sm-2 mb-sm-0" style="margin: 0px;">
+          <div class="select" >      
+        <select  id="rrk" name="rrk">
+            <% if (db.has(`rr_${guild.id}.channel`) === false) { %>
+       <option disabled selected> Tepki Kanal </option><br>
+             <% } %>
+            <% if (db.has(`rr_${guild.id}.channel`) === true) { %>
+            <option disabled selected> Tepki Kanal: <%= rrkanal %> </option>
+             <% } %>
+          
+           <% const kanallar = guild.channels.cache.sort((a, b) => a.position - b.position) %>
+              <% kanallar.map(item=> { %>
+         <% if (item.type == 'voice' || item.type == 'category') return; %>
+          <% if (item.type == 'text') {%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+           <% } %>
+              <% }) %>
+            </select>
+           </div>
+           
+     <div class="select">      
+            <select id="rrr" name="rrr">
+                     <% if (db.has(`rr_${guild.id}.role`) === false) { %>
+       <option disabled selected> Tepki Rol </option><br>
+             <% } %>
+            <% if (db.has(`rr_${guild.id}.role`) === true) { %>
+              <option disabled selected> Tepki Rol: <%= rrrol%> </option>
+                <% } %>
+              <% const roller = guild.roles.cache %>
+              <% roller.map(item=> { %>
+              <% if (item.name == '@everyone') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %></option>
+              <% }) %>
+            </select>
+            </div>
+  
+    </div>
+    <br>
+    <br>
+      <div style="width: 100%; text-align: left; margin-top: -5px;">
+        	<a class="u-btn-round"><a class="btn btn-primary u-btn-round" href="/dashboard/<%= guild.id %>/general/rr">rr ı açmak için tıkla</a></a>
+        	 <a class="u-btn-round"><a class="btn btn-primary u-btn-round" href="/dashboard/<%= guild.id %>/general/rr/reset">Sıfırla</a></a>
+      </div>
+     </div>
+        </div>
+     <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+ <div class="widget widget-one">
+   <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Kanal Koruma</label>
+  
+          
+      <div class="col-25">
+        
+      </div>
+      <div class="col-75">
+        <% if (db.has(`kanalk_${guild.id}`) === false) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="kanalk" name="kanalk" value="aktif">
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+        
+					<% if(db.has(`kanalk_${guild.id}`) === true) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="kanalk" name="kanalk" value="deaktif"checked>
+          
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+     
+   
+  <% if (db.has(`kanalk_${guild.id}`) === false) { %>
+    <% } %>
+  	<% if(db.has(`kanalk_${guild.id}`) === true) { %>
+              <div class="input-group mb-2 mr-sm-2 mb-sm-0" style="margin: 0px;">
+          <div class="select" >      
+        <select  id="kanalkorumak" name="kanalkorumak">
+            <% if (db.has(`kalog${guild.id}`) === false) { %>
+       <option disabled selected> Kanal Koruma Log </option><br>
+             <% } %>
+            <% if (db.has(`kalog${guild.id}`) === true) { %>
+          <option disabled selected> Kanal Koruma Log : <%= kanalog %> </option><br>
+             <% } %>
+   
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+           </div>
+              </div>
+                 
+  <a href="/dashboard/<%=guild.id%>/manage/kanalkoruma/reset" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+   
+   <% } %>
+          </div>
+  <br>
+                 <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Rol Koruma</label>
+           
+      <div class="col-25">
+        
+      </div>
+      <div class="col-75">
+        <% if (bot.ayar.has(`rolk_${guild.id}`) === false) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="rolek" name="rolek" value="aktif">
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+					<% if(bot.ayar.has(`rolk_${guild.id}`) === true) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="rolek" name="rolek" value="deaktif"checked>
+          
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+      </div>
+   
+  <br>
+     <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Reklam Filtre</label>
+          
+      <div class="col-25">
+        
+      </div>
+      <div class="col-75">
+        <% if (bot.ayar.has(`reklamFiltre_${guild.id}`) === false) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="reklam" name="reklam" value="aktif">
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+					<% if(bot.ayar.has(`reklamFiltre_${guild.id}`) === true) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="reklam" name="reklam" value="deaktif"checked>
+          
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+      </div>
+   
+  <br>
+    <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Küfür Engel</label>
+         
+      <div class="col-25">
+        
+      </div>
+      <div class="col-75">
+        <% if (bot.ayar.has(`küfürengel_${guild.id}`) === false) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="küfür" name="küfür" value="aktif">
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+					<% if(bot.ayar.has(`küfürengel_${guild.id}`) === true) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="küfür" name="küfür" value="deaktif"checked>
+          
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+      </div>
+   
+  <br>
+       <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Spam Koruma</label>
+             
+      <div class="col-25">
+        
+      </div>
+      <div class="col-75">
+        <% if (db.has(`antispam_${guild.id}`) === false) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="spamk" name="spamk" value="aktif">
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+					<% if(db.has(`antispam_${guild.id}`) === true) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="spamk" name="spamk" value="deaktif"checked>
+          
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+      </div>
+    
+   <% if (db.has(`antispam_${guild.id}`) === false) { %>
+  <% } %>
+  <% if(db.has(`antispam_${guild.id}`) === true) { %>
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0" style="width: 180px;margin: 0 !important;">
+         <div class="select">      
+            <select id="asr" name="asr">
+                     <% if (db.has(`antispamr_${guild.id}`) === false) { %>
+       <option disabled selected> Mute Rol </option><br>
+             <% } %>
+            <% if (db.has(`antispamr_${guild.id}`) === true) { %>
+              <option disabled selected> Mute Rol : <%= muterol %> </option>
+                <% } %>
+            
+              <% roller.map(item=> { %>
+              <% if (item.name == '@everyone') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %></option>
+              <% }) %>
+            </select>
+            <a href="/dashboard/<%=guild.id%>/manage/antispam/reset" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+            </div>
+         
+                 </div>
+  <% } %>
+        <br>
+        </div>
+            </div>
+     <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+            <div class="widget widget-one">
+        <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Seviye Sistemi</label>
+
+      <div class="col-25">
+        
+      </div>
+      <br>
+      <div class="col-75">
+        <% if (db.has(`seviyeacik_${guild.id}`) === false) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="lvl2" name="lvl2" value="aktif">
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+					<% if(db.has(`seviyeacik_${guild.id}`) === true) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="lvl2" name="lvl2" value="deaktif" checked>
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+      </div>
+    
+     <% if (db.has(`seviyeacik_${guild.id}`) === false) { %>
+  <% } %>
+  <% if(db.has(`seviyeacik_${guild.id}`) === true) { %>
+         <div class="select"style=" margin: 0 !important;" >      
+        <select  id="seviyelog" name="seviyelog" >
+            <% if (db.has(`svlog_${guild.id}`) === false) { %>
+       <option disabled selected> Seviye Log  </option><br>
+             <% } %>
+            <% if (db.has(`svlog_${guild.id}`) === true) { %>
+            <option disabled selected> Seviye Log: <%= seviyelog %> </option>
+             <% } %>
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+           </div>
+    <div class="input-group-addon " style=" text-align: left; margin: 0;">Seviye Kartı Bar Rengi</div>
+
+<div class="col-25 ">
+
+</div>
+<div class="col-75">
+<% if (db.has(`${guild.id}.renk`) === false) { %>
+<input type="color" id="renk" name="renk" class="u-btn-round"value="#84a0ed">
+   <a href="/dashboard/<%=guild.id%>/manage/renk/sifirla" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+<% } else { %>
+<input type="color" id="renk" name="renk"  class="u-btn-round"value="<%=db.fetch(`${guild.id}.renk`)%>">
+<a href="/dashboard/<%=guild.id%>/manage/renk/sifirla" class="btn btn-primary u-btn-round" style="padding: 0px 6px;"role="button">Sıfırla</a>
+<% } %>
+</div>
+
+
+ <div class="input-group-addon" style=" text-align: left; margin: 0;">Seviye Kartı Arka Plan Resmi</div>
+
+
+
+
+
+<div class="col-75">
+<% if (db.has(`${guild.id}.resim`) === false || db.fetch(`${guild.id}.resim`) === "https://img.revabot.tk/99kd63vyss.png") { %>
+<input type="url" id="resim" name="resim" class="u-btn-round"placeholder="Bir resim URL'si yazınız.">
+<a href="/dashboard/<%=guild.id%>/manage/resim/sifirla" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+<% } else { %>
+<input type="url" id="resim" name="resim" class="u-btn-round" placeholder="Bir resim URL'si yazınız resim .png veya .jpg şeklinde olmalıdır ve boyutu çok büyük olmamalıdır." value="<%=db.fetch(`${guild.id}.resim`)%>">
+<a href="/dashboard/<%=guild.id%>/manage/resim/sifirla" class="btn btn-primary u-btn-round" style="padding: 0px 6px;" role="button">Sıfırla</a>
+ </div>
+   
+  <div >
+  <% } %>
+
+
+ <div class="input-group-addon" style="width: 150px; text-align: left; margin: 0;">Önizleme</div>
+ 
+<div class="u-btn-round"style="background-color:solid #91a4e8;" style="width: 318px;height:100px;"><!--?xml version="1.0" encoding="UTF-8" standalone="no"?-->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="width: 500px;"width="1000px" height="141px">
+    <defs>
+        <style>
+            @import url('https://fonts.googleapis.com/css?family=Poppins');
+
+            @font-face {
+                font-family: 'DejaVu';
+                src: local('DejaVu'), url('https://cdn.mee6.xyz/assets/DejaVuSans.ttf');
+            }
+        </style>
+
+    </defs>
+
+    <!-- Background picture -->
+        <rect id="rect" width="100%" height="100%" rx="3" ry="3" style="fill:#23272A; width:94%;height:53%;"></rect>
+
+   <image class="u-btn-round" width="470px" height="137px" preserveAspectRatio="none" xlink:href="<%=db.fetch(`${guild.id}.resim`)%>"></image>
+
+    <!-- Rounded rectangle in the center -->
+    <rect y="18" x="12" rx="3" ry="3" width="443" height="105" style="fill:black;opacity:0.75;"></rect>
+
+
+    <!-- === Avatar. ===
+         Radius of circle = rc = 40px
+         Width of circle = height of circle = rc * 2 = 80px
+         margin left of avatar = mla = 21px
+         margin top of avatar = mta = 31px -->
+    <!-- Border of avatar.
+         This border is made by a frame that is bigger than the avatar and behind it
+         centered at the same point.
+
+         Width of border = wb = 4px
+         Radius of border = rb = rc + wb/2 = 42px
+          -->
+    <circle r="42" cx="61" cy="71" style="fill: black;"></circle>
+    <clipPath id="clipCircle">
+        <!-- cx = mla + r = 21 + 40 = 61
+             cy = mta + r = 31 + 40 = 71 -->
+        <circle r="40" cx="61" cy="71"></circle>
+    </clipPath>
+    <image x="21" y="31" width="80" height="80" clip-path="url(#clipCircle)" xlink:href="<%= member.displayAvatarURL({dynmic: false,format: 'png'}) %>"></image>
+
+    <!-- Activity status -->
+    <circle r="12" cx="92" cy="97" style="fill: <%= statuss %>"></circle>
+    <circle r="10" cx="92" cy="97" style="fill: <%= statuss %>"></circle>
+
+    <!-- Rank and level -->
+    <text x="441" y="50" font-family="Poppins" font-size="12" text-anchor="end" style="stroke: black; stroke-width: 0.2px">
+        <tspan fill="white">
+            RANK
+            <tspan font-size="30">
+                #1
+            </tspan>
+        </tspan>
+        <tspan fill="#fff">
+            LEVEL 
+            <tspan font-size="30"><%= klvl %></tspan>
+        </tspan>
+    </text>
+
+
+    <!-- Username + tag -->
+    <text x="137" y="83" font-family="DejaVu" font-size="" fill="white">
+        <%= member.username %>
+        <tspan style="fill: #7F8384" font-size="12"><%= member.discriminator %></tspan>
+    </text>
+
+    <!-- Exp points -->
+    <text x="441" y="83" font-family="Poppins" font-size="12" fill="white" text-anchor="end">
+        <%= kxp %>
+        <tspan style="fill: #7F8384"> / <%= xpToLvl %> XP</tspan>
+    </text>
+
+    <!-- === Progress bar === -->
+    <!-- simulate an outer stroke -->
+    <rect x="128" y="91" rx="12" ry="12" width="318" height="20" style="fill:black;"></rect>
+    <!-- background color of progress bar-->
+    <rect x="129" y="92" rx="9" ry="9" width="316" height="18" style="fill:#484B4E;"></rect>
+    <!-- actual progress bar.
+         be careful when computing width: full width is 316px.
+         Minimum width should be either 0px or 18px for better looking because of border radius -->
+    <rect x="129" y="92" rx="9" ry="9" width="150" height="18" style="fill:<%=db.fetch(`${guild.id}.renk`)%>"></rect>
+
+</svg>
+
+</div></div>
+
+    
+
+
+
+
+       
+<% } %>
+          </div>
+             
+          
+        </div>
+       
+     
+         
+     
+           
+      
+      <div style="width: 100%; text-align: right; margin-top: 20px;">
+         <a  type="submit" class="btn btn-primary u-btn-round"    onclick="window.location.href='/dashboard/<%= guild.id %>/manage'"><i class="fa fa-reply "></i> Geri<i aria-hidden='true'></i></a>
+        				<a  type="submit" class="btn btn-danger u-btn-round"  onclick="myFunction2()"><i class="fa fa-fw fa-sign-out"></i> Botu At<i aria-hidden='true'></i></a>
+<a type="submit" class="btn btn-primary u-btn-round"  onclick="myFunction1()"><i class="fa fa-fw fa-cogs" aria-hidden="true"></i>Ayarları Sıfırla</a>
+					<button  type="submit"class="btn btn-primary u-btn-round" onclick="myFunction()"><i class="fa fa-save fa-save"></i> Ayarları Kaydet<i aria-hidden='true'></i></button>
+        
+      </div>
+    </div>
+  </div>
+    </form>
+ <script>
+                 var urlParams = new URLSearchParams(window.location.search);
+           function myFunction() {
+                    Swal.fire({
+               toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 750,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  },
+ 
+  icon: 'success',
+  title: 'Ayarlarınız kaydedildi.'
+ 
+})
+     
+            }
+             function myFunction1() {
+          Swal.fire({
+  title: 'Emin misin?',
+  text: "Eğer sıfırlarsan geri dönüşü olmaz.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+              cancelButtonText: 'İptal',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Sıfırla!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+       position: 'top-end',
+  icon: 'success',
+  title: 'Başarıyla bütün ayarların sıfırlandı.',
+  showConfirmButton: false,
+  timer: 2000
+     
+   } )
+     window.location.href = `/dashboard/<%= guild.id %>/reset`;
+  }
+})
+               }
+          function myFunction2() {
+          Swal.fire({
+  title: 'Emin misin?',
+  text: "Cidden beni atmak mı istiyorsun?.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+            cancelButtonText: 'İptal',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'At!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+       position: 'top-end',
+  icon: 'success',
+  title: 'Başarıyla bot atıldı',
+  showConfirmButton: false,
+  timer: 2000
+     
+   } )
+     window.location.href = ``;
+  }
+})
+               }
+            if(urlParams.has('error') && urlParams.get('error')){
+            Swal.fire({
+             icon: 'error',
+             title: 'Tüh',
+             text: 'Hata oluştu.',
+             footer: ''
+            }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = `/dashboard/<%= guild.id %>/manage`;
+          }    
+        })
+            }
+     
+           </script>
+                   
+                        <body oncontextmenu="return false">
+ <SCRIPT language=JavaScript>
+
+    
+
+    var message = "**Bu sayfada rightclik basamassın**";
+
+    function rtclickcheck(keyp){ if (navigator.appName == "Netscape" && keyp.which == 3){ alert(message); return false; }
+
+    if (navigator.appVersion.indexOf("MSIE") != -1 && event.button == 2) { alert(message); return false; } }
+
+    document.onmousedown = rtclickcheck;
+
+    </SCRIPT>
+
+      <% include ../blocks/guild-modals1 %>
+<% include ../blocks/guild-modals %>
+<% include ../blocks/foot.ejs %>

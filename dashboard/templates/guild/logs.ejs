@@ -1,0 +1,641 @@
+
+<%- include('../blocks/head', {bot, user, path}) %>
+    <link rel="stylesheet" href="/public/css/dashboard1.css" />
+    <link rel="stylesheet" href="/public/css/bulma.css" />
+    <link rel="stylesheet" href="/public/js/style.js" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<head>
+
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/loader.css" rel="stylesheet" type="text/css" />
+    <script src="https://designreset.com/cork/ltr/demo9/assets/js/loader.js"></script>
+    <link href="https://pro.fontawesome.com/releases/v5.13.1/css/all.css" rel="stylesheet">
+    <link href="/public/css/admin.css" rel="stylesheet">
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
+    <link href="https://designreset.com/cork/ltr/demo9/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/plugins.css" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <link href="https://designreset.com/cork/ltr/demo9/plugins/apex/apexcharts.css" rel="stylesheet" type="text/css">
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/dashboard/dash_1.css" rel="stylesheet" type="text/css" class="dashboard-analytics" />
+    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://designreset.com/cork/ltr/demo9/plugins/table/datatable/datatables.css">
+    <link rel="stylesheet" type="text/css" href="https://designreset.com/cork/ltr/demo9/plugins/table/datatable/dt-global_style.css">
+  
+</head>
+
+
+
+  
+
+
+<div id="content" class="main-content">
+    <form method="post">
+         <div class="page-header">
+         <nav class="breadcrumb-one" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="/dashboard">Panel</a></li>
+                    <li class="breadcrumb-item active"><a href="/dashboard/<%= guild.id %>/manage">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item active"><a href="/dashboard/<%= guild.id %>/loglar">Loglar</a></li>
+                </ol>
+            </nav>
+           
+      </div>
+   <div class="row layout-top-spacing" id="cancel-row">
+          <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+       <div class="widget widget-one">
+           <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969">Giriş-Çıkış</label>
+           <br>
+       <br>
+         <div class="select"style="margin: 0 !important;">      
+     
+        <select id="girisk" name="girisk">
+             <% if (db.has(`girişlog_${guild.id}`) === false) { %>
+       <option disabled selected> Giriş Log </option><br>
+             <% } %>
+            <% if (db.has(`girişlog_${guild.id}`) === true) { %>
+              <option disabled selected> Giriş Log: <%= girişlog %></option>
+                <% } %>
+              <% const kanallar = guild.channels.cache.sort((a, b) => a.position - b.position) %>
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+            </div>
+             <br>
+          <div class="select"style=" margin: 0 !important;">      
+        <select id="çıkışk" name="çıkışk">
+            <% if (db.has(`çıkışlog_${guild.id}`) === false) { %>
+       <option disabled selected> Çıkış Log </option><br>
+             <% } %>
+            <% if (db.has(`çıkışlog_${guild.id}`) === true) { %>
+         
+              <option disabled selected> Çıkış Log: <%= çıkışlog %> </option>
+          
+                <% } %>
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+            </div>
+               <br>
+          <div class="select" style="margin: 0 !important;">      
+        <select id="hoşgeldink" name="hoşgeldink">
+             
+                    <% if (db.has(`hglog_${guild.id}`) === false) { %>
+       <option disabled selected> Hoşgeldin Kanal </option><br>
+             <% } %>
+            <% if (db.has(`hglog_${guild.id}`) === true) { %>
+              <option disabled selected> Hoşgeldin Kanal: <%= hglog %> </option>
+                <% } %>
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+              </div>
+          
+         <br>
+           <br>
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0" style="margin: 0 !important;">
+                  
+            <div class="input-group-addon" style="width: 150px; text-align: left; margin: 0;">Dm Giriş Mesaj</div>
+                  <% if (db.has(`hgdmmesaj_${guild.id}`) === false) { %>
+            <input type="text"  class="form-control u-btn-round" style=" text-align: center;  border: 4px inherit #fff; text-align: center;color:#ffff;" name="dmmesaj" id="dmmesaj" placeholder="Örnek : {kullanıcı} Hey {sunucu} Adlı Sunucumuza Hoşgeldin!">
+             <% } %>
+                     <% if (db.has(`hgdmmesaj_${guild.id}`) === true) { %>
+                   <input type="text"  class="form-control u-btn-round" style=" text-align: center;  border: 4px inherit #fff; text-align: center;color:#ffff;" name="dmmesaj" id="dmmesaj" placeholder="<%=db.get(`hgdmmesaj_${guild.id}`)%>">
+                  <% } %>
+         </div>
+              <div class="input-group mb-2 mr-sm-2 mb-sm-0" style=" margin: 0 !important;">
+            <div class="input-group-addon" style="width: 150px; text-align: left; margin: 0;">Hoşgeldin Mesaj</div>
+                  <% if (db.has(`hgmesaj_${guild.id}`) === false) { %>
+      <input type="text"  class="form-control u-btn-round" style="text-align: center;  border: 4px inherit #fff; text-align: center;color:#ffff;" name="hoşgeldinmesaj" id="hoşgeldinmesaj" placeholder="Örnek : {kullanıcı}{sunucu} Adlı Sunucumuza Hoş Geldin">
+         <% } %>
+        <% if (db.has(`hgmesaj_${guild.id}`) === true) { %>
+       <input type="text"  class="form-control u-btn-round" style="text-align: center;  border: 4px inherit #fff; text-align: center;color:#ffff;" name="hoşgeldinmesaj" id="hoşgeldinmesaj" placeholder="<%=db.get(`hgmesaj_${guild.id}`)%>">
+         <% } %>
+           
+        </div>
+          <a href="/dashboard/<%=guild.id%>/manage/login/reset" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+          <br>
+         
+               <div class="input-group-addon" style="width: 151px; text-align: left; margin: 0; ">Resimli Hoşgeldin</div>
+         
+         
+      <div class="col-25">
+        
+      </div>
+      <div class="col-75">
+        <% if (db.has(`hglogarka_${guild.id}`) === false) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="hgs" name="hgs" value="aktif">
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+        
+					<% if(db.has(`hglogarka_${guild.id}`) === true) { %>
+        <label style="margin-right:80%;" class="switch">
+         <input type="checkbox" id="hgs" name="hgs" value="deaktif"checked>
+          
+         <span class="slider round"></span>
+        </label>
+          <% } %>
+      </div>
+  
+         
+
+       <% if (db.has(`hglogarka_${guild.id}`) === false) { %>
+       <% } %>
+      	<% if(db.has(`hglogarka_${guild.id}`) === true) { %>
+<div class="input-group-addon" style=" text-align: left; margin: 0;">Hoş Geldin Arka Plan Resmi</div>
+<div class="col-75">
+<% if (db.has(`hglogarkaresim_${guild.id}`) === false || db.fetch(`hglogarkaresim_${guild.id}`) === "https://img.revabot.tk/99kd63vyss.png") { %>
+<input type="url" id="hgresim" name="hgresim" class="u-btn-round"placeholder="Bir resim URL'si yazınız.">
+<a href="/dashboard/<%=guild.id%>/loglar/hgb/sifirla" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+<% } else { %>
+<input type="url" id="hgresim" name="hgresim" class="u-btn-round" placeholder="Bir resim URL'si yazınız resim .png veya .jpg şeklinde olmalıdır ve boyutu çok büyük olmamalıdır." value="<%=db.fetch(`${guild.id}.resim`)%>">
+<a href="/dashboard/<%=guild.id%>/loglar/hgb/sifirla" class="btn btn-primary u-btn-round" style="padding: 0px 6px;" role="button">Sıfırla</a>
+
+  
+
+
+ <div class="input-group-addon" style="width: 150px; text-align: left; margin: 0;">Resim</div>
+
+
+    <img class="u-btn-round"src="<%=db.fetch(`hglogarkaresim_${guild.id}`)%>" width="618px" height="450px"><br><br>
+
+
+      </div>
+  <% } %>
+       <% } %>
+  
+         </div>
+     </div>
+      <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+     <div class="widget widget-one">
+      <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Otorol</label>
+              
+        <br>
+       <br>
+                 <div class="select"style=" margin: 0 !important;">      
+            <select id="otorol" name="otorol">
+              <% if (db.has(`otorol_${guild.id}`) === false) { %>
+         <option disabled selected> Verilecek Rol </option>
+             <% } %>
+            <% if (db.has(`otorol_${guild.id}`) === true) { %>
+              <option disabled selected>Verilecek Rol: <%= otorolrol%> </option>
+                <% } %>
+           
+              <% const roller = guild.roles.cache %>
+              <% roller.map(item=> { %>
+              <% if (item.name == '@everyone') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %></option>
+              <% }) %>
+            </select>
+                  </div>
+           <br>
+         <div class="select"style="margin: 0 !important;">      
+        <select id="otorolkanalk" name="otorolkanalk">
+             <% if (db.has(`otorollog_${guild.id}`) === false) { %>
+          <option disabled selected> Otorol Log Kanal </option><br>
+             <% } %>
+            <% if (db.has(`otorollog_${guild.id}`) === true) { %>
+              <option disabled selected> Otorol Log Kanal: <%= otorolkanal %> </option>
+                <% } %>
+            
+             
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+             </div>
+         <br>
+         <a href="/dashboard/<%=guild.id%>/manage/otorol/reset" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+         </div>
+    
+      <br>
+            <div class="widget widget-one">
+          <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Kanal</label>
+               <br> <br>
+                 <div class="select"style="margin: 0 !important;">      
+            <select id="kanalaçmak" name="kanalaçmak">
+         <% if (db.has(`kanalaçmalog_${guild.id}`) === false) { %>
+          <option disabled selected> Kanal Açma Log </option><br>
+             <% } %>
+            <% if (db.has(`kanalaçmalog_${guild.id}`) === true) { %>
+              <option disabled selected> Kanal Açma Log: <%= kanalaçmalog%> </option>
+                <% } %>
+             
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+                 </div>
+                     <br>
+         <div class="select"style="margin: 0 !important;">      
+        <select id="kanalsilmek" name="kanalsilmek">
+             <% if (db.has(`kanalsilmelog_${guild.id}`) === false) { %>
+          <option disabled selected> Kanal Silme Log </option><br>
+             <% } %>
+            <% if (db.has(`kanalsilmelog_${guild.id}`) === true) { %>
+              <option disabled selected> Kanal Silme Log: <%= kanalsilmelog%> </option>
+                <% } %>
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+              </div>
+                <br>
+                 <a href="/dashboard/<%=guild.id%>/manage/channel/reset" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+                         </div>
+          <br>
+          <div class="widget widget-one">
+             <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Rol</label>
+            <br>
+            <br>
+                 <div class="select"style="margin: 0 !important;">      
+            <select id="rolaçmak" name="rolaçmak">
+            <% if (db.has(`rolaçmalog_${guild.id}`) === false) { %>
+          <option disabled selected> Rol Açma Log </option><br>
+             <% } %>
+            <% if (db.has(`rolaçmalog_${guild.id}`) === true) { %>
+              <option disabled selected> Rol Açma Log : <%= rolaçmalog%> </option>
+                <% } %>
+             
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+               </div>
+<br>
+         <div class="select"style="margin: 0 !important;">      
+        <select id="rolsilmek" name="rolsilmek">
+               <% if (db.has(`rolsilmelog_${guild.id}`) === false) { %>
+          <option disabled selected> Rol Silme Log </option><br>
+             <% } %>
+            <% if (db.has(`rolsilmelog_${guild.id}`) === true) { %>
+              <option disabled selected> Rol Silme Log : <%= rolsilmelog%> </option>
+                <% } %>
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+            </div>
+                        <br>       
+         <div class="select"style="margin: 0 !important;">      
+        <select id="rolgüncellemek" name="rolgüncellemek">
+                <% if (db.has(`rolgüncellemelog_${guild.id}`) === false) { %>
+          <option disabled selected> Rol Güncelleme Log </option><br>
+             <% } %>
+            <% if (db.has(`rolgüncellemelog_${guild.id}`) === true) { %>
+              <option disabled selected> Rol Güncelleme Log : <%= rolgüncellemelog%> </option>
+                <% } %>
+             
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+            </div>
+                              <br>   
+                         
+         <div class="select"style="margin: 0 !important;">      
+        <select id="roldeğiştirmek" name="roldeğiştirmek">
+               <% if (db.has(`roldeğiştirmelog_${guild.id}`) === false) { %>
+          <option disabled selected> Rol Değiştirme Log </option><br>
+             <% } %>
+            <% if (db.has(`roldeğiştirmelog_${guild.id}`) === true) { %>
+              <option disabled selected> Rol Değiştirme Log : <%= roldeğiştirmelog%> </option>
+                <% } %>
+             
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+              </div>
+              <br>
+                   <a href="/dashboard/<%=guild.id%>/manage/role/reset" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+                            </div>
+        <br>
+             <div class="widget widget-one">
+           <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Mesaj</label>
+               <br>
+               <br>
+                 <div class="select"style="margin: 0 !important;">      
+            <select id="mesajsilk" name="mesajsilk">
+         <% if (db.has(`mesajsilmelog_${guild.id}`) === false) { %>
+          <option disabled selected> Mesaj Silme Log </option><br>
+             <% } %>
+               <%  %>
+            <% if (db.has(`mesajsilmelog_${guild.id}`) === true) { %>
+              <option disabled selected> Mesaj Silme Log : <%= mesajsilmekanal %> </option>
+                <% } %>
+             
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+                </div>
+                <br>
+         <div class="select"style="margin: 0 !important;">      
+        <select id="mesajeditk" name="mesajeditk">
+               <% if (db.has(`mesajgüncellemelog_${guild.id}`) === false) { %>
+          <option disabled selected> Mesaj Editleme Log </option><br>
+             <% } %>
+            <% if (db.has(`mesajgüncellemelog_${guild.id}`) === true) { %>
+              <option disabled selected> Mesaj Editleme Log : <%= mesajgüncellemekanal %> </option>
+                <% } %>
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+             </div>
+                 <br>
+             <a href="/dashboard/<%=guild.id%>/manage/message/reset" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>           
+                </div>
+     </div>
+       
+           <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                  <div class="widget widget-one">
+       <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Ban</label>
+                    <br>
+                    <br>
+                 <div class="select"style="margin: 0 !important;">      
+            <select id="bank" name="bank">
+                 <% if (db.has(`banlog_${guild.id}`) === false) { %>
+          <option disabled selected> Banlanma Log </option><br>
+             <% } %>
+            <% if (db.has(`banlog_${guild.id}`) === true) { %>
+              <option disabled selected> Banlanma Log : <%= banlog%> </option>
+                <% } %>
+             
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+               </div>
+                     <br>
+                           <div class="select"style=" margin: 0 !important;">      
+            <select id="banaçk" name="banaçk">
+                 <% if (db.has(`banaçmalog_${guild.id}`) === false) { %>
+          <option disabled selected> Ban Açma Log </option><br>
+             <% } %>
+            <% if (db.has(`banaçmalog_${guild.id}`) === true) { %>
+              <option disabled selected> Ban Açma Log : <%= banaçmalog%> </option>
+                <% } %>
+             
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+               </div>  
+                      <br>
+                      <a href="/dashboard/<%=guild.id%>/manage/ban/reset" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+     
+                         </div>
+           <br>
+                    <div class="widget widget-one">
+                    <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> İsim</label>
+                       <br> <br>
+                 <div class="select"style="margin: 0 !important;">      
+            <select id="isimlogk" name="isimlogk">
+           <% if (db.has(`isimlog_${guild.id}`) === false) { %>
+          <option disabled selected> İsim Değiştirme Log </option><br>
+             <% } %>
+            <% if (db.has(`isimlog_${guild.id}`) === true) { %>
+              <option disabled selected> İsim Değiştirme Log : <%= isimlog%> </option>
+                <% } %>
+             
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+              </div>
+                        <br>
+      <a href="/dashboard/<%=guild.id%>/manage/name/reset" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+                    
+                        
+                      </div>
+             <br>
+          <div class="widget widget-one">
+                   <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> İstek</label>
+             <br> <br>
+                 <div class="select"style="margin: 0 !important;">      
+            <select id="isteklogk" name="isteklogk">
+             <% if (db.has(`ilog_${guild.id}`) === false) { %>
+          <option disabled selected> İstek Log </option><br>
+             <% } %>
+            <% if (db.has(`ilog_${guild.id}`) === true) { %>
+              <option disabled selected> İstek Log : <%= isteklog%> </option>
+                <% } %>
+             
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+                
+                    </div>
+              <br>
+                          <a href="/dashboard/<%=guild.id%>/manage/istek/reset" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+     </div>
+             <br>
+     <div class="widget widget-one">
+               
+                        <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Bug</label>
+        <br> <br>
+                 <div class="select"style="margin: 0 !important;">      
+            <select id="buglogk" name="buglogk">
+             <% if (db.has(`buglog_${guild.id}`) === false) { %>
+          <option disabled selected> Bug Log </option><br>
+             <% } %>
+            <% if (db.has(`buglog_${guild.id}`) === true) { %>
+              <option disabled selected> BugLog : <%= buglog%> </option>
+                <% } %>
+             
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+                    </div>
+         <br>
+                      <a href="/dashboard/<%=guild.id%>/manage/bug/reset" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+     </div>
+             <br>
+     <div class="widget widget-one">                 
+   <label><i class="fad fa-tags" style="color: #696969"></i style="color: #696969"> Emoji</label>
+        <br> <br>
+                      <div class="select"style="margin: 0 !important;">      
+            <select id="emojiaçmalog" name="emojiaçmalog">
+             <% if (db.has(`emojiaçmalog_${guild.id}`) === false) { %>
+          <option disabled selected> Emoji Ekleme Log </option><br>
+             <% } %>
+            <% if (db.has(`emojiaçmalog_${guild.id}`) === true) { %>
+              <option disabled selected> Emoji Ekleme Log : <%= emojiaçmalog%> </option>
+                <% } %>
+             
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+                    </div>
+       <br>
+                         <div class="select"style="margin: 0 !important;">      
+            <select id="emojisilmelog" name="emojisilmelog">
+             <% if (db.has(`emojisilmelog_${guild.id}`) === false) { %>
+          <option disabled selected> Emoji Silme Log </option><br>
+             <% } %>
+            <% if (db.has(`emojisilmelog_${guild.id}`) === true) { %>
+              <option disabled selected> Emoji Silme Log : <%= emojisilmelog%> </option>
+                <% } %>
+             
+              <% kanallar.map(item=> { %>
+              <% if (item.type == 'voice' || item.type == 'category') return;%>
+              <option value="<%=item.id%>" id="<%= item.id%>"> <%= item.name %> </option>
+              <% }) %>
+            </select>
+                    </div>
+         <br>
+            <a href="/dashboard/<%=guild.id%>/manage/emoji/reset" class="btn btn-primary u-btn-round"style="padding: 0px 6px;" role="button">Sıfırla</a>
+      </div>
+             
+               
+             </div>
+     
+         
+     
+           
+      
+      <div style="width: 100%; text-align: right; margin-top: 20px;">
+        <a  type="submit" class="btn btn-primary u-btn-round"    onclick="window.location.href='/dashboard/<%= guild.id %>/manage'"><i class="fa fa-reply "></i> Geri<i aria-hidden='true'></i></a>
+        				<a  type="submit" class="btn btn-danger u-btn-round"  onclick="myFunction2()"><i class="fa fa-fw fa-sign-out"></i> Botu At<i aria-hidden='true'></i></a>
+<a type="submit" class="btn btn-primary u-btn-round"  onclick="myFunction1()"><i class="fa fa-fw fa-cogs" aria-hidden="true"></i>Ayarları Sıfırla</a>
+					<button  type="submit"class="btn btn-primary u-btn-round" onclick="myFunction()"><i class="fa fa-save fa-save"></i> Ayarları Kaydet<i aria-hidden='true'></i></button>
+        
+      </div>
+    </div>
+  </div>
+    </form>
+ <script>
+                 var urlParams = new URLSearchParams(window.location.search);
+           function myFunction() {
+                    Swal.fire({
+               toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 750,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  },
+ 
+  icon: 'success',
+  title: 'Ayarlarınız kaydedildi.'
+ 
+})
+     
+            }
+             function myFunction1() {
+          Swal.fire({
+  title: 'Emin misin?',
+  text: "Eğer sıfırlarsan geri dönüşü olmaz.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+              cancelButtonText: 'İptal',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Sıfırla!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+       position: 'top-end',
+  icon: 'success',
+  title: 'Başarıyla bütün ayarların sıfırlandı.',
+  showConfirmButton: false,
+  timer: 2000
+     
+   } )
+     window.location.href = `/dashboard/<%= guild.id %>/reset`;
+  }
+})
+               }
+          function myFunction2() {
+          Swal.fire({
+  title: 'Emin misin?',
+  text: "Cidden beni atmak mı istiyorsun?.",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+            cancelButtonText: 'İptal',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'At!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+       position: 'top-end',
+  icon: 'success',
+  title: 'Başarıyla bot atıldı',
+  showConfirmButton: false,
+  timer: 2000
+     
+   } )
+     window.location.href = ``;
+  }
+})
+               }
+            if(urlParams.has('error') && urlParams.get('error')){
+            Swal.fire({
+             icon: 'error',
+             title: 'Tüh',
+             text: 'Hata oluştu.',
+             footer: ''
+            }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = `/dashboard/<%= guild.id %>/manage`;
+          }    
+        })
+            }
+     
+           </script>
+                   
+                        <body oncontextmenu="return false">
+ <SCRIPT language=JavaScript>
+
+    
+
+    var message = "**Bu sayfada rightclik basamassın**";
+
+    function rtclickcheck(keyp){ if (navigator.appName == "Netscape" && keyp.which == 3){ alert(message); return false; }
+
+    if (navigator.appVersion.indexOf("MSIE") != -1 && event.button == 2) { alert(message); return false; } }
+
+    document.onmousedown = rtclickcheck;
+
+    </SCRIPT>
+
+      <% include ../blocks/guild-modals1 %>
+<% include ../blocks/guild-modals %>
+<% include ../blocks/foot.ejs %>

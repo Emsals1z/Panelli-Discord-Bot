@@ -1,0 +1,105 @@
+<%- include('blocks/header', {bot, user, path}) %>
+  <h5>Emsalsiz Admin Paneli</h5>
+<title>Admin Paneli</title>
+             <!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.button {
+  border-radius: 4px;
+   barder-color: #0098f7;
+  background-color: #0098f7;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 20px;
+  padding: 20px;
+  height: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+  top: -17px;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  
+  
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  color: #696969;
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+</style>
+</head>
+<body>
+  <ul class="list-unstyled">
+    <% bot.guilds.cache.forEach(guild => { %>
+      <li class="media" style="padding: 10px;">
+        <% if (guild.icon) { %>
+          <img class="d-flex mr-3 rounded-circle" src="<%= `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128` %>" style="width: 80px;" alt="">
+          <% } else { %>
+            <canvas style="background-color: #7289da" class="d-flex mr-3 rounded-circle" id="<%= guild.name.split(' ').join('').replace(`'`, ``) %>" width="80px" height="80px"></canvas>
+            <script>
+              function draw() {
+                const ctx = document.getElementById("<%= guild.name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+                ctx.font = '30px Arial';
+                ctx.textAlign = "center";
+                ctx.fillStyle = "white";
+                ctx.fillText("<%= guild.name.split(' ').map(v => v[0]).join('') %>", 40, 50);
+              };
+              draw();
+            </script>
+            <% } %>
+              <div class="media-body">
+                <h5 class="mt-0 mb-1">
+                  <%= guild.name %>
+                </h5>
+                <% 
+                  let href, text;
+                  if(bot.guilds.cache.get(guild.id)) {
+                    href = `/dashboard/${guild.id}/manage`;
+                    text = "Düzenle";
+                  } else {
+                    href = `https://discord.com/oauth2/authorize?client_id=848551626780573716&scope=bot&permissions=805829694`;
+                    text = "Botu Ekle";
+                  }
+                  %>
+                  <a type="submit"  class="button"style="background-color: #91a4e8"  role="button" href="<%= href %>"><span> <%= text %> </span></a>
+              </div>
+      </li>
+      <% }); %>
+  </ul>
+<SCRIPT language=JavaScript>
+
+   
+
+    var message = "**Bu sayfada rightclik basamassın**";
+
+    function rtclickcheck(keyp){ if (navigator.appName == "Netscape" && keyp.which == 3){ alert(message); return false; }
+
+    if (navigator.appVersion.indexOf("MSIE") != -1 && event.button == 2) { alert(message); return false; } }
+
+    document.onmousedown = rtclickcheck;
+
+    </SCRIPT>
+  <% include blocks/footer %>

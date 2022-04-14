@@ -1,0 +1,77 @@
+<%- include('../blocks/head', {bot, user, path}) %>
+    <link rel="stylesheet" href="/public/css/dashboard1.css" />
+    <link rel="stylesheet" href="/public/css/bulma.css" />
+    <link rel="stylesheet" href="/public/js/style.js" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<head>
+
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/loader.css" rel="stylesheet" type="text/css" />
+    <script src="https://designreset.com/cork/ltr/demo9/assets/js/loader.js"></script>
+    <link href="https://pro.fontawesome.com/releases/v5.13.1/css/all.css" rel="stylesheet">
+    <link href="/public/css/admin.css" rel="stylesheet">
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
+    <link href="https://designreset.com/cork/ltr/demo9/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/plugins.css" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <link href="https://designreset.com/cork/ltr/demo9/plugins/apex/apexcharts.css" rel="stylesheet" type="text/css">
+    <link href="https://designreset.com/cork/ltr/demo9/assets/css/dashboard/dash_1.css" rel="stylesheet" type="text/css" class="dashboard-analytics" />
+    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.4.0/clipboard.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://designreset.com/cork/ltr/demo9/plugins/table/datatable/datatables.css">
+    <link rel="stylesheet" type="text/css" href="https://designreset.com/cork/ltr/demo9/plugins/table/datatable/dt-global_style.css">
+  
+</head>
+  
+
+
+
+
+
+<div id="content" class="main-content">
+<form method="post">
+
+
+
+
+
+     <div class="page-header">
+         <nav class="breadcrumb-one" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active"><a href="/dashboard/<%= guild.id %>/manage">Manage</a></li>
+                </ol>
+            </nav>
+           
+      </div>
+      
+      <div class="row layout-top-spacing" id="cancel-row">
+ </div>
+
+     </div>
+     </form>
+      
+                        <body oncontextmenu="return false">
+ <SCRIPT language=JavaScript>
+
+
+
+    var message = "**Bu sayfada rightclik basamassın**";
+
+    function rtclickcheck(keyp){ if (navigator.appName == "Netscape" && keyp.which == 3){ alert(message); return false; }
+
+    if (navigator.appVersion.indexOf("MSIE") != -1 && event.button == 2) { alert(message); return false; } }
+
+    document.onmousedown = rtclickcheck;
+
+    </SCRIPT>
+
+      <% include ../blocks/guild-modals1 %>
+<% include ../blocks/guild-modals %>
+<% include ../blocks/foot.ejs %>

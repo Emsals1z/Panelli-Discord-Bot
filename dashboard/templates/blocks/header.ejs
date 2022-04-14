@@ -1,0 +1,83 @@
+<html lang="en">
+<head>
+      <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Emsalsiz Panel" />
+    <meta property="og:title" content="<%= bot.user.username %> Site" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://f-bott.glitch.me" /> 
+    <meta property="og:description" content="F-Bot eğlence,moderasyon,logo,güvenlik ve oyun botudur.Ayrıca web dashboard'ı ile kolayca yönetilebilir." />
+    <meta property="og:image" content="<%= bot.user.displayAvatarURL() %>"/>
+    <meta property="og:site_name" content="<%= bot.user.username %>">
+    <meta property="og:locale" content="en_US">
+ <link rel='icon' href='<%= bot.user.avatarURL() %>'>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+ <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/public/css/dashboard.css" />
+      <script src="/public/js/typeit.main.js"></script>
+    <script src="/public/js/aa.js"></script>
+<link href="https://pro.fontawesome.com/releases/v5.13.1/css/all.css" rel="stylesheet">
+
+</head>
+
+<div class="loader-bg">
+  		<div class="loader-p">
+  			
+  		</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ 
+<script>
+  setTimeout(function(){
+    $('.loader-bg').fadeToggle();
+  },1250);
+  	// jQuery to collapse the navbar on scroll
+
+</script>
+
+<body id="content">
+<nav class="navbar navbar-expand-lg navbar-dark bg-emsalsiz" style="text-align: center" class="center">
+    <div class="container"><a class="navbar-brand" href="/">
+        <strong class="h6 mb-0 font-weight-bold text-uppercase" style="font-size:25px;"><img class="vcodes-logo-nav"  style="weight: 63px; height: 63px;"src="https://cdn.discordapp.com/attachments/880759850559229962/896854001667149844/presF1.png"></strong></a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+              
+               <li class="nav-item active"> <a title="Ana Sayfa" class="nav-link" href="/"><i class="fad fa-home"></i>&nbsp; Ana Sayfa</a></li>
+                <li class="nav-item active"><a title="Komutlar" class="nav-link" href="/commands"><i class="fad fa-terminal"></i>&nbsp;Komutlar</a></li>
+                <li class="nav-item active"><a title="Panel" class="nav-link" href="/dashboard"><i class="fad fa-robot"></i>&nbsp;Panel</a></li>
+                <li class="nav-item active"><a title="İstatistik" class="nav-link" href="/stats"><i class="fad fa-server"></i>&nbsp;İstatistik</a></li>
+             
+
+                <% if(user) {%>
+
+                    <li class="nav-item dropdown " >
+                        <a class="nav-link dropdown-toggle has-text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img draggable="false" src="<%= bot.users.cache.get(user.id).avatarURL({dynamic: true}) %>" style="width: 30px; border-radius: 50%;">  <%= user.username %>
+                        </a>
+                        <div title="Esalsiz" class="dropdown-menu animate slideIn" aria-labelledby="navbarDropdown">
+                          <a title="Profil" class="dropdown-item" href="/profile"><i class="fad fa-user"></i>&nbsp;Profil</a>
+                          <a title="Panel" class="dropdown-item" href="/dashboard"><i class="fad fa-robot"></i>&nbsp;Panel</a>
+                              <% if(user.id === bot.appInfo.owner.id) { %>
+                          <a title="Code" class="dropdown-item" href="/admin"><i class="fad fa-code"></i>&nbsp;Admin</a>
+                 
+                  <% } %>
+                          <div class="dropdown-divider"></div>
+                          <a title="Log Out" class="dropdown-item" href="/logout"><i class="fad fa-sign-out-alt"></i>&nbsp;Çıkış</a>
+                        </div>
+                      </li>
+                <% } else {%>
+                    <li class="nav-item active"><a class="nav-link" title="Login" href="/login"><i class="fad fa-sign-in-alt"></i>&nbsp;Giriş</a></li>
+                <% } %>           
+            </ul>
+        </div>
+    </div>
+</nav>

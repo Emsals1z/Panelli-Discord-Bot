@@ -1,0 +1,390 @@
+<!DOCTYPE html> 
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Emsalsiz Panel" />
+    <meta property="og:title" content="<%= bot.user.username %> Site" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://f-bott.glitch.me" /> 
+    <meta property="og:description" content="F-Bot eğlence,moderasyon,logo,güvenlik ve oyun botudur.Ayrıca web dashboard'ı ile kolayca yönetilebilir." />
+    <meta property="og:image" content="<%= bot.user.displayAvatarURL() %>"/>
+    <meta property="og:site_name" content="<%= bot.user.username %>">
+    <meta property="og:locale" content="en_US">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link href="https://pro.fontawesome.com/releases/v5.13.1/css/all.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js" integrity="sha256-zG8v+NWiZxmjNi+CvUYnZwKtHzFtdO8cAKUIdB8+U9I=" crossorigin="anonymous"></script>
+      <script src="/public/js/typeit.main.js"></script>
+    <script src="/public/js/aa.js"></script>
+ 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/public/css/bomba.css">
+  <link rel="stylesheet" href="/public/css/asdada.css">
+    <link rel="stylesheet" href="/public/css/darkly.css">
+    <link rel="stylesheet" href="/public/css/dashboard.css" />
+    <link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap.min.css">
+   
+ <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js">
+
+<link href="https://pro.fontawesome.com/releases/v5.13.1/css/all.css" rel="stylesheet">
+
+
+    <script src="/public/jss/aa.js"></script>
+    
+    
+    <link rel='icon' href='<%= bot.user.avatarURL() %>'>
+
+
+    
+  </head>
+  <body>
+    
+    <a name="top"></a>
+    <nav class="navbar navbar-expand-lg " style="margin-bottom: -10px; background-color:#91a4e8 ;height: 66px;"  >
+
+      <div style="background-color: #91a4e8;height: 66px;" class="container">
+                   <style>
+  button {
+  position: relative;
+  //display:block;
+  height: 34px;
+  width: 150px;
+  padding: 5px 5px;
+
+  
+  color: #fff;
+  border: 2px #fff ;
+ 
+ 
+  overflow:hidden;
+  background: none;
+  z-index: 1;
+  cursor: pointer;
+  transition:         0.08s ease-in;
+  -o-transition:      0.08s ease-in;
+  -ms-transition:     0.08s ease-in;
+  -moz-transition:    0.08s ease-in;
+  -webkit-transition: 0.08s ease-in;
+}
+
+.fill:hover {
+  color: whitesmoke;
+}
+
+.fill:before {
+  content: "";
+  position: absolute;
+  background: #383736;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: -1;
+  -webkit-transition: top 0.09s ease-in;
+}
+
+.fill:hover:before {
+  top: 0;
+}
+.fill1:hover {
+  color: whitesmoke;
+}
+
+.fill1:before {
+  content: "";
+  position: absolute;
+  background: #383736;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: -1;
+  -webkit-transition: top 0.09s ease-in;
+}
+
+.fill1:hover:before {
+  top: 0;
+}
+.fade:before{
+  content:"→";
+  position:absolute;
+  color:#383736;
+  left: 88%;
+  opacity: 0;
+  -webkit-transition: all 0.2s ease-in;
+}
+
+.fade:hover:before{
+  left:91%;
+  opacity:1;
+}
+
+.fade:hover {
+  border: 0px #fff solid;
+  -webkit-transform: scale(1.04,1.04);
+  -webkit-transition: border 0.3s ease-out;
+  -webkit-transition: transform 250ms cubic-bezier(0.680, -0.550, 0.265, 1.550); 
+}
+
+.arrow{
+  text-align:left;
+  padding-left:17px;
+}
+
+.arrow:before{
+  content:"→";
+  position:absolute;
+  color:#383736;
+  left: 83%;
+  opacity: 0;
+  -webkit-transition: all 250ms cubic-bezier(0.680, -0.550, 0.265, 1.550); 
+}
+
+.arrow:hover:before{
+  left:84%;
+  opacity:1;
+}
+
+.arrow:hover {
+  width:170px;
+}
+
+
+.slide:after{
+  content:"E-Bot";
+  position:absolute;
+  width:100%;
+  height:100%;
+  left:0;
+  text-align:center;
+  -webkit-transition: all 400ms cubic-bezier(0.680, -0.550, 0.265, 1.550); 
+}
+
+.slide:before {
+  content:"Ana Sayfa";
+  height:100%;
+  width:100%;
+  position:absolute;
+  color:
+  left:-100%;
+  opacity: 0;
+  -webkit-transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550); 
+}
+
+.slide:hover{
+  background:#383736;
+}
+
+.slide:hover:before{
+  left:0;
+  opacity:1;
+  color:#fff;
+}
+.slide:hover:after{
+  left:100%;
+  opacity:0;
+}
+
+.slide.left:hover{
+  background:none;
+}
+
+.slide.left:before {
+  left:100%;
+  color:#383736;
+  -webkit-transition: all 425ms cubic-bezier(0.680, -0.550, 0.265, 1.550); 
+}
+
+.slide.left:hover:before{
+  left:0;
+}
+.slide1:after{
+  position:absolute;
+  width:100%;
+  height:100%;
+  left:0;
+  text-align:left;
+  -webkit-transition: all 400ms cubic-bezier(0.680, -0.550, 0.265, 1.550); 
+}
+
+.slide1:before {
+  content:"Panel";
+  height:100%;
+  width:100%;
+  position:absolute;
+  color:#383736;
+  left:-100%;
+  opacity: 0;
+  -webkit-transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550); 
+}
+
+.slide1:hover{
+  background:#383736;
+}
+
+.slide1:hover:before{
+  left:0;
+  opacity:1;
+  color:#fff;
+}
+.slide1:hover:after{
+  left:100%;
+  opacity:0;
+
+}
+
+.slide1.left:hover{
+  background:none;
+}
+
+.slide1.left:before {
+  left:100%;
+  color:#383736;
+  -webkit-transition: all 425ms cubic-bezier(0.680, -0.550, 0.265, 1.550); 
+}
+
+.slide1.left:hover:before{
+  left:0;
+}
+.svg{
+  -webkit-transition: all 150ms cubic-bezier(0.445, 0.050, 0.550, 0.950); 
+}
+
+.svg:before{
+  position:absolute;  
+  content:"";
+  background: 
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  z-index:-1;
+  opacity:0;
+  -webkit-transition: all 250ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+}
+
+.svg:after {
+  content: "";
+  position: absolute;
+  background: #d19b26;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: -2;
+  -webkit-transition: all 250ms cubic-bezier(0.230, 1.000, 0.320, 1.000); 
+}
+.svg:hover{
+  color:white;
+  border: 0px #d19b26 solid;
+}
+.svg:hover:before {
+  opacity: .8;
+}
+.svg:hover:after {
+  top: 0;
+}
+  </style>
+          <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+            <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+<button class="slide left" style="width:100px;"onclick="window.location.href='/'">&nbsp;</button>
+        <div  style="background-color: #91a4e8;height: 66px;" class="collapse navbar-collapse" id="navbar01">
+          <ul style="background-color: #91a4e8;" class="navbar-nav mr-auto" >
+            <button class="fill u-btn-round"style="width:100px"onclick="window.location.href='/commands'">Komutlar</button>
+              <button class="fill u-btn-round"style="width:100px"onclick="window.location.href='/dashboard'">Panel</button>
+            <button class="fill u-btn-round"style="width:100px"onclick="window.location.href='/stats'">İstatistik</button>
+
+  
+
+
+
+
+          </ul>
+          <ul class="navbar-nav ">
+            <% if(user) { %>
+              <li class="dropdown">
+                 <!-- 
+-->
+            <a href="#" class="nav-link dropdown-toggle"style="background-color: #91a4e8;color:#fff;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= user.username %>#<%= user.discriminator %></a> 
+               
+                
+                <div class="dropdown-menu dropdown-menu-right u-btn-round " style="color:#91a4e8;" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-header" style="opacity: 1;"href="/profile"><i class="fa fa-user" aria-hidden="true"></i> <%= user.username %></a>
+                 <a class="dropdown-item"  style="opacity: 1;"href="/dashboard"><i class="fa fa-cogs" aria-hidden="true"></i> Panel</a>
+                  <% if(user.id === bot.appInfo.owner.id) { %>
+                    <a  class="dropdown-item" style="opacity: 1;" href="/admin"><i class="fa fa-key"></i> Admin</a>
+                  <% } %>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item"  style="opacity: 1;"href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Çıkış Yap</a>
+                </div>
+              </li>
+            <% } else { %>
+          
+              <li class="nav-item"><a href="/login" style="opacity: 1;" class="nav-link"><i class="fa fa-key" aria-hidden="true"></i> Giriş Yap</a></li>
+            <% } %>
+          </ul>
+              
+        </div>
+     
+      </div>
+           <input type="checkbox" class="checkbox" id="chk"1 />
+      	<label style="width:30px;height:14px;"class="label" for="chk">
+		<div class="ball"></div>
+	</label>
+ 
+</div>
+    
+          <script>
+            document.getElementById("chk").addEventListener("change", function() {
+              	document.body.classList.toggle('dark');
+
+              
+
+});
+   
+
+
+
+</script>
+   
+  
+  
+   </nav
+  
+      <div class="container">
+       <div class="input-group-addon" style="width: 100%;"style="color:#fff;">
+        <ol class="breadcrumb" style="background-color:#91a4e8;">
+          
+          <li class="breadcrumb-item" style="color:#fff;"><a class="input-group-addon"style="color:#696969;"href="/">Anasayfa</a></li>
+          <%
+            pathArray = path.split("/").slice(1);
+            pathArray = pathArray.map(p=> {
+              if (bot.guilds.cache.has(p)) return bot.guilds.cache.get(p).name;
+              return p.toProperCase();
+            });
+            let builtPath = "";
+            for(let i = 0; i < pathArray.length; i++) {
+              builtPath += "/"+path.split("/").slice(1)[i]; %>
+              <li class="breadcrumb-item<% if((i+1) === pathArray.length) { %> active">
+              <%= pathArray[i] %>
+            <% } else { %>">
+              <a style="color:#696969;"href="<%= builtPath %>"><%= pathArray[i] %></a>
+            <% } %>
+          <% } %>
+          </li>
+        </ol>
+      </div>
+    
+
+ 
+      
+	
