@@ -8,7 +8,7 @@ const osu = require('node-os-utils');
 
 
 const client1 = new Discord.Client();
-const TopggApi = new Topgg.Api("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijg0ODU1MTYyNjc4MDU3MzcxNiIsImJvdCI6dHJ1ZSwiaWF0IjoxNjI4NTA2NDUzfQ.g_QIq-lyVdVGlWZTvFGgp-68sUUXGsZX0hCFMJIqvMA");
+const TopggApi = new Topgg.Api("Your api key here");
 var os = require('os');
 const mem = osu.mem
 const cpu = osu.cpu
