@@ -80,34 +80,14 @@ module.exports = (client) => {
     };
     res.render(path.resolve(`${templateDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
-  const Topgg = require('@top-gg/sdk')
-const webhook = new Topgg.Webhook('emsalsiz') //Secure Password (Change it for god's Sake)
-const fetch = require('node-fetch')
-app.post('/vote', webhook.listener(vote => { //ending url
-   
-    let value = JSON.stringify({
-        embeds: [
-            {
-                title: "Bota Top.gg de oy veldi!!",
-                description: `<@${vote.user}> (${vote.user}) \`F-Bot\`'a oy verdi!!`,
-                color: "8388736" //Hex -> Decimal
-            }
-        ]
-    })
-    fetch("https://discord.com/api/webhooks/874271367015571466/jtPZymYMeLxPqjPbHbMJ8PTXfnKSBw-qJtMR7fLoBC1bbR0xxuJxk-DF52sVwoVAEQUY", { //Your webhook here
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json',
-        },
-        body: value
-    }).catch(e => console.log('Error occured while posting webhook : ' + e))
-}))
+  
   app.get("/login", (req, res, next) => {
   
    
     if (req.session.backURL) {
       req.session.backURL = req.session.backURL;
     } else if (req.headers.referer) {
+    
       const parsed = url.parse(req.headers.referer);
       if (parsed.hostname === app.locals.domain) {
         req.session.backURL = parsed.path;
@@ -123,7 +103,7 @@ app.post('/vote', webhook.listener(vote => { //ending url
   app.get("/callback", passport.authenticate("discord", { failureRedirect: "/autherror" }), (req, res) => {
        
       client.users.fetch(req.user.id).then(async a => {
-      client.channels.cache.get("872176323559309432").send(new Discord.MessageEmbed().setAuthor(a.username, a.avatarURL({dynamic: true})).setThumbnail(a.avatarURL({dynamic: true})).setColor("GREEN").setDescription(`[**${a.username}**#${a.discriminator}](https://f-bot.cf) isimli kullanıcı **siteye** giriş yaptı.`).addField("Username", a.username).addField("User ID", a.id).addField("User Discriminator", a.discriminator))
+      client.channels.cache.get("872185291182600192").send(new Discord.MessageEmbed().setAuthor(a.username, a.avatarURL({dynamic: true})).setThumbnail(a.avatarURL({dynamic: true})).setColor("GREEN").setDescription(`[**${a.username}**#${a.discriminator}](https://f-bot.cf) isimli kullanıcı **siteye** giriş yaptı.`).addField("Username", a.username).addField("User ID", a.id).addField("User Discriminator", a.discriminator))
       
       })
     if (req.user.id === client.appInfo.owner.id) {
@@ -161,6 +141,10 @@ app.post('/vote', webhook.listener(vote => { //ending url
   const perms = Discord.Permissions
  renderTemplate(res, req, "dashboard.ejs", {perms});
   });
+   app.get("/dashboard", checkAuth, (req, res) => {
+  const perms = Discord.Permissions
+ renderTemplate(res, req, "blocks/head.ejs", {perms});
+  });
    
    app.get("/profile", checkAuth, (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
@@ -181,15 +165,35 @@ const ay = moment(member.createdAt).format('MM')
  
     });
   });
+     app.get("/settings", checkAuth, (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID);
+    
+    const sunucu = client.guilds.cache.get(req.params.guildID);
+  const db = require('quick.db')
+ const moment = require("moment");
+ client.users.fetch(req.user.id).then(async a => {
+ const member = a;
+const gün = moment(member.createdAt).format('DD')
+const ay = moment(member.createdAt).format('MM')
+  const yıl = moment(member.createdAt).format('YYYY HH:mm:ss')
+   var f =''
+ if(member.presence.activities.map(a=>a.state)) f=member.presence.activities.map(a=>a.state)
+ if(member.presence.activities.map(a=>a.state) =='') f='Yok'
+    
+  renderTemplate(res, req, "settings.ejs", {guild,sunucu,db,member,moment,gün,ay,yıl,f});
+ 
+    });
+  });
 
    
 
   
  
 
-   app.get("/dashboard/:guildID/manage", checkAuth,async (req, res) => {
+   app.get("/dashboard/:guildID/manage", checkAuth,async (req, res, args) => {
     const guild = client.guilds.cache.get(req.params.guildID);
-    
+     const perms = Discord.Permissions
+    const roles = guild.roles.cache.sort((a, b) => b.position - a.position).map(role => role.toString());
     const sunucu = client.guilds.cache.get(req.params.guildID);
   const db = require('quick.db')
   const canvacord = require("canvacord");
@@ -237,15 +241,240 @@ if(member.presence.status === "dnd")
   {
   statuss = "#747f8d"  
   }
+   
+ const entry = await guild.fetchAuditLogs({limit:1, type: "ALL"}).then(entry => entry.entries.first())
+  const entry1 = await guild.fetchAuditLogs({limit:2, type: "ALL"}).then(entry1 => entry1.entries.array()[1])
+  const entry2 = await guild.fetchAuditLogs({limit:3, type: "ALL"}).then(entry1 => entry1.entries.array()[2])
+  const entry3 = await guild.fetchAuditLogs({limit:4, type: "ALL"}).then(entry1 => entry1.entries.array()[3])
+   const entry4 = await guild.fetchAuditLogs({limit:5, type: "ALL"}).then(entry1 => entry1.entries.array()[4])
 
-
-
-    renderTemplate(res, req, "guild/manage.ejs", {guild,sunucu,db,member,statuss,kxp,klvl,xpToLvl});
+  let aa = ""
+      let b = ""
+let c = ""
+let d = ""
+let e = ""
+      let f = ""
+      if(entry === undefined)
+{ aa = "Hata oluştu"}
+   else {
+   if(entry.action === "MESSAGE_DELETE")
+    {
+     aa = `${entry.executor.username}#${entry.executor.discriminator} ${entry.extra.channel.name} adlı kanaldan ${entry.target.username} adlı kişinin mesajını sildi. `
+ 
+    }
+   else if(entry.action === "MEMBER_ROLE_UPDATE")
+    {
+aa = `${entry.executor.username}#${entry.executor.discriminator} ${entry.target.username} adlı kişinin rollerini değiştirdi. `
+      
+        
+    }
+    else if(entry.action === "CHANNEL_CREATE")
+    {
+  aa = `${entry.executor.username}#${entry.executor.discriminator} ${entry.target.name} adlı kanalı açtı. `
+      
+        
+    }
+   else if(entry.action === "CHANNEL_DELETE")
+    {
+  aa = `${entry.executor.username}#${entry.executor.discriminator} bir kanalı kanalı sildi. `
+      
+        
+    }
+    else if(entry.action === "ROLE_CREATE")
+    {
+aa = `${entry.executor.username}#${entry.executor.discriminator} ${entry.target.name} adlı rolü açtı. `
+      
+        
+    }
+     else if(entry.action === "ROLE_DELETE")
+    {
+aa = `${entry.executor.username}#${entry.executor.discriminator} bir rolü sildi. `
+      
+        console.log("channel.create")
+    }
+  else{
+   aa = `${entry.executor.username}#${entry.executor.discriminator} loga düştü.`
+  }}
+   
+   
+   //////////////////////////////////
+ if(entry1 === undefined)
+{}
+   else {
+   if(entry1.action === "MESSAGE_DELETE")
+    {
+     b = `${entry1.executor.username}#${entry1.executor.discriminator} ${entry1.extra.channel.name} adlı kanaldan ${entry1.target.username} adlı kişinin mesajını sildi. `
+ 
+    }
+   else if(entry1.action === "MEMBER_ROLE_UPDATE")
+    {
+b = `${entry1.executor.username}#${entry1.executor.discriminator} ${entry1.target.username} adlı kişinin rollerini değiştirdi. `
+      
+        
+    }
+    else if(entry1.action === "CHANNEL_CREATE")
+    {
+  b = `${entry1.executor.username}#${entry1.executor.discriminator} ${entry1.target.name} adlı kanalı açtı. `
+      
+        
+    }
+   else if(entry1.action === "CHANNEL_DELETE")
+    {
+  b = `${entry1.executor.username}#${entry1.executor.discriminator} bir kanalı kanalı sildi. `
+      
+        
+    }
+    else if(entry1.action === "ROLE_CREATE")
+    {
+b = `${entry1.executor.username}#${entry1.executor.discriminator} ${entry1.target.name} adlı rolü açtı. `
+      
+        
+    }
+     else if(entry1.action === "ROLE_DELETE")
+    {
+b = `${entry1.executor.username}#${entry1.executor.discriminator} bir rolü sildi. `
+      
+       
+    }
+  else{
+   b = `${entry1.executor.username}#${entry1.executor.discriminator} loga düştü.`
+  }}
+   
+   ////////////////
+     if(entry2 === undefined)
+{}
+   else {
+  if(entry2.action === "MESSAGE_DELETE")
+    {
+     c = `${entry2.executor.username}#${entry2.executor.discriminator} ${entry2.extra.channel.name} adlı kanaldan ${entry2.target.username} adlı kişinin mesajını sildi. `
+ 
+    }
+   else if(entry2.action === "MEMBER_ROLE_UPDATE")
+    {
+c = `${entry2.executor.username}#${entry2.executor.discriminator} ${entry2.target.username} adlı kişinin rollerini değiştirdi. `
+      
+        
+    }
+    else if(entry2.action === "CHANNEL_CREATE")
+    {
+  c = `${entry2.executor.username}#${entry2.executor.discriminator} ${entry2.target.name} adlı kanalı açtı. `
+      
+        
+    }
+   else if(entry2.action === "CHANNEL_DELETE")
+    {
+  c = `${entry2.executor.username}#${entry2.executor.discriminator} bir kanalı kanalı sildi. `
+      
+        
+    }
+    else if(entry2.action === "ROLE_CREATE")
+    {
+c = `${entry2.executor.username}#${entry2.executor.discriminator} ${entry2.target.name} adlı rolü açtı. `
+      
+        
+    }
+     else if(entry2.action === "ROLE_DELETE")
+    {
+c = `${entry2.executor.username}#${entry2.executor.discriminator} bir rolü sildi. `
+      
+       
+    }
+  else{
+   c = `${entry2.executor.username}#${entry2.executor.discriminator} loga düştü.`
+  }}
+   
+   //////////////////////////
+    if(entry3 === undefined)
+{}
+   else {
+   if(entry3.action === "MESSAGE_DELETE")
+    {
+     d = `${entry3.executor.username}#${entry3.executor.discriminator} ${entry3.extra.channel.name} adlı kanaldan ${entry3.target.username} adlı kişinin mesajını sildi. `
+ 
+    }
+   else if(entry3.action === "MEMBER_ROLE_UPDATE")
+    {
+d = `${entry3.executor.username}#${entry3.executor.discriminator} ${entry3.target.username} adlı kişinin rollerini değiştirdi. `
+      
+        
+    }
+    else if(entry3.action === "CHANNEL_CREATE")
+    {
+  d = `${entry3.executor.username}#${entry3.executor.discriminator} ${entry3.target.name} adlı kanalı açtı. `
+      
+        
+    }
+   else if(entry3.action === "CHANNEL_DELETE")
+    {
+  d = `${entry3.executor.username}#${entry3.executor.discriminator} bir kanalı kanalı sildi. `
+      
+        
+    }
+    else if(entry3.action === "ROLE_CREATE")
+    {
+d = `${entry3.executor.username}#${entry3.executor.discriminator} ${entry3.target.name} adlı rolü açtı. `
+      
+        
+    }
+     else if(entry3.action === "ROLE_DELETE")
+    {
+d = `${entry3.executor.username}#${entry3.executor.discriminator} bir rolü sildi. `
+      
+       
+    }
+  else{
+   d = `${entry3.executor.username}#${entry3.executor.discriminator} loga düştü.`
+  }
+   }
+   ///////////////////////////////
+    if(entry4 === undefined)
+{}
+   else {
+   if(entry4.action === "MESSAGE_DELETE")
+    {
+     f = `${entry4.executor.username}#${entry4.executor.discriminator} ${entry4.extra.channel.name} adlı kanaldan ${entry4.target.username} adlı kişinin mesajını sildi. `
+ 
+    }
+   else if(entry4.action === "MEMBER_ROLE_UPDATE")
+    {
+f = `${entry4.executor.username}#${entry4.executor.discriminator} ${entry4.target.username} adlı kişinin rollerini değiştirdi. `
+      
+        
+    }
+    else if(entry4.action === "CHANNEL_CREATE")
+    {
+  f = `${entry4.executor.username}#${entry4.executor.discriminator} ${entry4.target.name} adlı kanalı açtı. `
+      
+        
+    }
+   else if(entry4.action === "CHANNEL_DELETE")
+    {
+  f = `${entry4.executor.username}#${entry4.executor.discriminator} bir kanalı kanalı sildi. `
+      
+        
+    }
+    else if(entry4.action === "ROLE_CREATE")
+    {
+f = `${entry4.executor.username}#${entry4.executor.discriminator} ${entry4.target.name} adlı rolü açtı. `
+      
+        
+    }
+     else if(entry4.action === "ROLE_DELETE")
+    {
+f = `${entry4.executor.username}#${entry4.executor.discriminator} bir rolü sildi. `
+      
+       
+    }
+  else{
+   f = `${entry4.executor.username}#${entry4.executor.discriminator} loga düştü.`
+  }
+   }
+    renderTemplate(res, req, "guild/manage.ejs", {perms,guild,sunucu,db,member,statuss,kxp,klvl,xpToLvl,roles,entry,aa,b,c,d,e,f});
    
    
        });
   });
-    app.get("/dashboard/:guildID/manage/cekilis", checkAuth, async (req, res) => {
+    app.get("/dashboard/:guildID/fun/cekilis", checkAuth, async (req, res) => {
         const guild = client.guilds.cache.get(req.params.guildID);
    const ms = require('ms')
     const sunucu = client.guilds.cache.get(req.params.guildID);
@@ -288,7 +517,7 @@ units: {
             }
         });
        });
- res.redirect(`/dashboard/${req.params.guildID}/manage`);
+ res.redirect(`/dashboard/${req.params.guildID}/fun`);
     });
   app.post("/dashboard/:guildID/manage", checkAuth, async (req, res) => {
     
@@ -298,127 +527,17 @@ units: {
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     let ayar = req.body
     if (ayar === {}) return;
-    if (ayar['asr']) 
-    {db.set(`antispamr_${guild.id}`,ayar['asr'])
-   }
-      if (ayar['çw']) 
-    {db.set(`çekiliş_${guild.id}.winner`,ayar['çw'])
-   }
-  if (ayar['çö']) 
-    {db.set(`çekiliş_${guild.id}.prize`,ayar['çö'])
-  }
+
     if (ayar['prefix']) db.set(`prefix_${guild.id}`, ayar['prefix'])
-      if (ayar['çt']) 
-    {db.set(`çekiliş_${guild.id}.time`,ayar['çt'])
-  }
-  if (ayar['seviyelog']) 
-    {db.set(`svlog_${guild.id}`,ayar['seviyelog'])
-   }
-    if (ayar['çk']) 
-    {db.set(`çekiliş_${guild.id}.channel`,ayar['çk'])
- }
-   if (ayar['rrk']) 
-    {db.set(`rr_${guild.id}.channel`,ayar['rrk'])
-  }
-       if (ayar['rrr']) 
-    {db.set(`rr_${guild.id}.role`,ayar['rrr'])
- }
-   if (ayar['emoji']) db.set(`rr_${guild.id}.emoji`, ayar['emoji'])   
-  if (ayar['yazı']) db.set(`rr_${guild.id}.text`, ayar['yazı'])
-    
-    if (ayar['gmesaj']) db.set(`girişm_${guild.id}`, ayar['gmesaj'],)
-    
-     if (ayar['cmesaj']) db.set(`çikişm_${guild.id}`, ayar['cmesaj'],)
-    
-    if (ayar['hoşgeldinmesaj']) db.set(`hoşgeldinm_${guild.id}`, ayar['hoşgeldinmesaj'],)
-             if (ayar['kYasak']) {
+     if (ayar['kYasak']) {
         db.push(`yasakK_${guild.id}`, ayar['kYasak'])
               
          }
-      if (ayar['kanalkorumak']) 
-    {db.set(`kalog${guild.id}`,ayar['kanalkorumak'])
- }
-           if (ayar['lvl2'] === 'aktif') {
-db.set(`seviyeacik_${guild.id}`, ayar['lvl2'])
-            
-}
-if (!ayar['lvl2']) {
-db.delete(`seviyeacik_${guild.id}`)
-
-}
-    if (ayar['renk']) {
-db.set(`${guild.id}.renk`, ayar['renk'])
     
-}
-
-if (ayar['resim']) {
-db.set(`${guild.id}.resim`, ayar['resim'])
-
-  
-}
-   if (ayar['kanalk']=== 'aktif') {
-db.set(`kanalk_${guild.id}`, ayar['kanalk'])
-            
-}
-if (!ayar['kanalk']){
-db.delete(`kanalk_${guild.id}`)
-
-}
-
-    
-      if (ayar['spamk']=== 'aktif') {
-db.set(`antispam_${guild.id}`, ayar['spamk'])
-             
-}
-if (!ayar['spamk']){
-db.delete(`antispam_${guild.id}`)
-  
-}
-               if (ayar['komuti']=== 'aktif') {
-db.set(`komuti_${guild.id}`, "acik")
-            
-}
-if (!ayar['komuti']){
-db.delete(`komuti_${guild.id}`)
-  
-}     
-                     if (ayar['reklam']=== 'aktif') {
-db.set(`reklamFiltre_${guild.id}`, "acik")
-            
-}
-if (!ayar['reklam']){
-db.delete(`reklamFiltre_${guild.id}`)
-  
-}
-               if (ayar['rolek']=== 'aktif') {
-db.set(`rolk_${guild.id}`, "acik")
-            
-}
-if (!ayar['rolek']){
-db.delete(`rolk_${guild.id}`)
-  
-}
-   
-     if (ayar['reklam']=== 'aktif') {
-db.set(` reklamFiltre_${guild.id}`, "acik")
-             
-}
-if (!ayar['reklam']){
-db.delete(`reklamFiltre_${guild.id}`)
- 
-}
-             if (ayar['küfür']=== 'aktif') {
-db.set(`küfürengel_${guild.id}`, "acik")
-          
-}
-if (!ayar['küfür']){
-db.delete(`küfürengel_${guild.id}`)
- 
-}
     
     res.redirect("/dashboard/"+req.params.guildID+"/manage");
   });
-     app.get("/dashboard/:guildID/manage/rr", checkAuth, async (req, res) => {
+     app.get("/dashboard/:guildID/general/rr", checkAuth, async (req, res) => {
         const guild = client.guilds.cache.get(req.params.guildID);
    
     const sunucu = client.guilds.cache.get(req.params.guildID);
@@ -460,36 +579,36 @@ const roles =  await db.fetch(`rr_${guild.id}`);
       
   
 
-    res.redirect(`/dashboard/${req.params.guildID}/manage`);
+    res.redirect(`/dashboard/${req.params.guildID}/general`);
   });
-    app.get("/dashboard/:guildID/manage/kanalkoruma/reset", checkAuth, (req, res) => {
+    app.get("/dashboard/:guildID/general/kanalkoruma/reset", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
     db.delete(`kalog${guild.id}`)
 
-    res.redirect(`/dashboard/${req.params.guildID}/manage`);
+    res.redirect(`/dashboard/${req.params.guildID}/general`);
   });
-     app.get("/dashboard/:guildID/manage/antispam/reset", checkAuth, (req, res) => {
+     app.get("/dashboard/:guildID/general/antispam/reset", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
     db.delete(`antispamr_${guild.id}`)
 
-    res.redirect(`/dashboard/${req.params.guildID}/manage`);
+    res.redirect(`/dashboard/${req.params.guildID}/general`);
   });
   
-      app.get("/dashboard/:guildID/manage/rr/reset", checkAuth, (req, res) => {
+      app.get("/dashboard/:guildID/general/rr/reset", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
     db.delete(`rr_${guild.id}.emoji`)
        db.delete(`rr_${guild.id}.text`)
        db.delete(`rr_${guild.id}.channel`)
        db.delete(`rr_${guild.id}.role`)
-    res.redirect(`/dashboard/${req.params.guildID}/manage`);
+    res.redirect(`/dashboard/${req.params.guildID}/general`);
   });
-     app.get("/dashboard/:guildID/manage/cekilis/reset", checkAuth, (req, res) => {
+     app.get("/dashboard/:guildID/fun/cekilis/reset", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
     db.delete(`çekiliş_${guild.id}.time`)
        db.delete(`çekiliş_${guild.id}.winner`)
        db.delete(`çekiliş_${guild.id}.prize`)
        db.delete(`çekiliş_${guild.id}.channel`)
-    res.redirect(`/dashboard/${req.params.guildID}/manage`);
+    res.redirect(`/dashboard/${req.params.guildID}/fun`);
   });
        app.get("/dashboard/:guildID/manage/login/reset", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
@@ -502,15 +621,23 @@ const roles =  await db.fetch(`rr_${guild.id}`);
               db.delete(`hglogarkaresim_${guild.id}`)
          
 
-    res.redirect(`/dashboard/${req.params.guildID}/loglar`);
+    res.redirect(`/dashboard/${req.params.guildID}/logs`);
   });
        app.get("/dashboard/:guildID/manage/otorol/reset", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
-    db.delete(`otorollog_${guild.id}`)
+    db.delete(`rolK_${guild.id}`)
           db.delete(`otorol_${guild.id}`)
      
 
-    res.redirect(`/dashboard/${req.params.guildID}/loglar`);
+    res.redirect(`/dashboard/${req.params.guildID}/logs`);
+  });
+    app.get("/dashboard/:guildID/manage/message/reset", checkAuth, (req, res) => {
+ const guild = client.guilds.cache.get(req.params.guildID);
+    db.delete(`mesajsilmelog_${guild.id}`)
+          db.delete(`mesajgüncellemelog_${guild.id}`)
+     
+
+    res.redirect(`/dashboard/${req.params.guildID}/logs`);
   });
        app.get("/dashboard/:guildID/manage/channel/reset", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
@@ -518,7 +645,7 @@ const roles =  await db.fetch(`rr_${guild.id}`);
           db.delete(`kanalsilmelog_${guild.id}`)
      
 
-    res.redirect(`/dashboard/${req.params.guildID}/loglar`);
+    res.redirect(`/dashboard/${req.params.guildID}/logs`);
   });
          app.get("/dashboard/:guildID/manage/role/reset", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
@@ -528,33 +655,34 @@ const roles =  await db.fetch(`rr_${guild.id}`);
           db.delete(`roldeğiştirmelog_${guild.id}`)
      
 
-    res.redirect(`/dashboard/${req.params.guildID}/loglar`);
+    res.redirect(`/dashboard/${req.params.guildID}/logs`);
   });
+
        app.get("/dashboard/:guildID/manage/ban/reset", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
     db.delete(`banlog_${guild.id}`)
           db.delete(`banaçmalog_${guild.id}`)
      
 
-    res.redirect(`/dashboard/${req.params.guildID}/loglar`);
+    res.redirect(`/dashboard/${req.params.guildID}/logs`);
   });
     app.get("/dashboard/:guildID/manage/name/reset", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
     db.delete(`isimlog_${guild.id}`)
 
-    res.redirect(`/dashboard/${req.params.guildID}/loglar`);
+    res.redirect(`/dashboard/${req.params.guildID}/logs`);
   });
   app.get("/dashboard/:guildID/manage/istek/reset", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
     db.delete(`ilog_${guild.id}`)
 
-    res.redirect(`/dashboard/${req.params.guildID}/loglar`);
+    res.redirect(`/dashboard/${req.params.guildID}/logs`);
   });
     app.get("/dashboard/:guildID/manage/bug/reset", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
     db.delete(`buglog_${guild.id}`)
 
-    res.redirect(`/dashboard/${req.params.guildID}/loglar`);
+    res.redirect(`/dashboard/${req.params.guildID}/logs`);
   });
        app.get("/dashboard/:guildID/manage/emoji/reset", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
@@ -562,13 +690,13 @@ const roles =  await db.fetch(`rr_${guild.id}`);
           db.delete(`emojisilmelog_${guild.id}`)
      
 
-    res.redirect(`/dashboard/${req.params.guildID}/loglar`);
+    res.redirect(`/dashboard/${req.params.guildID}/logs`);
   });
     app.get("/dashboard/:guildID/loglar/hgb/sifirla", checkAuth, (req, res) => {
  const guild = client.guilds.cache.get(req.params.guildID);
     db.delete(`hglogarkaresim_${guild.id}`)
      
-    res.redirect(`/dashboard/${req.params.guildID}/loglar`);
+    res.redirect(`/dashboard/${req.params.guildID}/logs`);
   });
    app.get("/dashboard/:guildID/manage/:ayarID/sifirla", checkAuth, (req, res) => {
     if (db.has(`${req.params.guildID}.${req.params.ayarID}`) ===  false || req.params.ayarID === "resim" && db.fetch(`${req.params.guildID}.${req.params.ayarID}`) === "https://img.revabot.tk/99kd63vy.png") return res.json({"hata":req.params.ayarID.charAt(0).toUpperCase()+req.params.ayarID.slice(1)+" ayarı "+client.users.cache.get(req.params.guildID).tag+" adlı kullanıcıda ayarlı olmadığı için sıfırlanamaz."});
@@ -607,8 +735,221 @@ db.set(`yasakK_${req.params.guildID}`, arr)
 
 res.redirect("/dashboard/"+req.params.guildID+"/manage");
 });
+    app.post("/dashboard/:guildID/fun", checkAuth,  (req, res) => {
+    const db = require('quick.db')
+    const guild = client.guilds.cache.get(req.params.guildID);
+    if (!guild) return res.status(404);
+    const isLanaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    if (!isLanaged && !req.session.isAdmin) res.redirect("/");
+    let ayar = req.body
+    if (ayar === {}) return;
+   
+        if (ayar['çw']) 
+    {db.set(`çekiliş_${guild.id}.winner`,ayar['çw'])
+   }
+  if (ayar['çö']) 
+    {db.set(`çekiliş_${guild.id}.prize`,ayar['çö'])
+  }
+        if (ayar['çt']) 
+    {db.set(`çekiliş_${guild.id}.time`,ayar['çt'])
+  }
+         if (ayar['çk']) 
+    {db.set(`çekiliş_${guild.id}.channel`,ayar['çk'])
+ }
+    res.redirect("/dashboard/"+req.params.guildID+"/fun");
+  });
+    app.get("/dashboard/:guildID/fun", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID);
+    const db = require('quick.db')
+      const Discord2=require("discord.js");
+      let çekilişlog = ""
+  if (db.has(`çekiliş_${guild.id}.channel`) === true) {
+çekilişlog = client.channels.cache.get(db.fetch(`çekiliş_${guild.id}.channel`)).name
+}
+
+    if (!guild) return res.status(404);
+    const isLanaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    if (!isLanaged && !req.session.isAdmin) res.redirect("/");
+    renderTemplate(res, req, "guild/fun.ejs", {guild,db,fs,client2,çekilişlog});
   
-  app.post("/dashboard/:guildID/loglar", checkAuth,  (req, res) => {
+  });
+    app.post("/dashboard/:guildID/general", checkAuth,  (req, res) => {
+    const db = require('quick.db')
+    const guild = client.guilds.cache.get(req.params.guildID);
+    if (!guild) return res.status(404);
+    const isLanaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    if (!isLanaged && !req.session.isAdmin) res.redirect("/");
+       let ayar = req.body
+    if (ayar === {}) return;
+    if (ayar['asr']) 
+    {db.set(`antispamr_${guild.id}`,ayar['asr'])
+   }
+
+  if (ayar['seviyelog']) 
+    {db.set(`svlog_${guild.id}`,ayar['seviyelog'])
+   }
+ 
+   if (ayar['rrk']) 
+    {db.set(`rr_${guild.id}.channel`,ayar['rrk'])
+  }
+       if (ayar['rrr']) 
+    {db.set(`rr_${guild.id}.role`,ayar['rrr'])
+ }
+   if (ayar['emoji']) db.set(`rr_${guild.id}.emoji`, ayar['emoji'])   
+  if (ayar['yazı']) db.set(`rr_${guild.id}.text`, ayar['yazı'])
+    
+    if (ayar['gmesaj']) db.set(`girişm_${guild.id}`, ayar['gmesaj'],)
+    
+     if (ayar['cmesaj']) db.set(`çikişm_${guild.id}`, ayar['cmesaj'],)
+    
+    if (ayar['hoşgeldinmesaj']) db.set(`hoşgeldinm_${guild.id}`, ayar['hoşgeldinmesaj'],)
+            
+      if (ayar['kanalkorumak']) 
+    {db.set(`kalog${guild.id}`,ayar['kanalkorumak'])
+ }
+           if (ayar['lvl2'] === 'aktif') {
+db.set(`seviyeacik_${guild.id}`, ayar['lvl2'])
+            
+}
+if (!ayar['lvl2']) {
+db.delete(`seviyeacik_${guild.id}`)
+
+}
+    if (ayar['renk']) {
+db.set(`${guild.id}.renk`, ayar['renk'])
+    
+}
+
+if (ayar['resim']) {
+db.set(`${guild.id}.resim`, ayar['resim'])
+
+  
+}
+   if (ayar['kanalk']=== 'aktif') {
+db.set(`kanalk_${guild.id}`, ayar['kanalk'])
+            
+}
+if (!ayar['kanalk']){
+db.delete(`kanalk_${guild.id}`)
+
+}
+
+    
+      if (ayar['spamk']=== 'aktif') {
+db.set(`antispam_${guild.id}`, ayar['spamk'])
+             
+}
+if (!ayar['spamk']){
+db.delete(`antispam_${guild.id}`)
+  
+}
+     
+               if (ayar['rolek']=== 'aktif') {
+db.set(`rolk_${guild.id}`, "acik")
+            
+}
+if (!ayar['rolek']){
+db.delete(`rolk_${guild.id}`)
+  
+}
+   
+     if (ayar['reklam']=== 'aktif') {
+db.set(`reklamFiltre_${guild.id}`, "acik")
+             
+}
+if (!ayar['reklam']){
+db.delete(`reklamFiltre_${guild.id}`)
+ 
+}
+             if (ayar['küfür']=== 'aktif') {
+db.set(`küfürengel_${guild.id}`, "acik")
+          
+}
+if (!ayar['küfür']){
+db.delete(`küfürengel_${guild.id}`)
+ 
+}
+    
+    res.redirect("/dashboard/"+req.params.guildID+"/general");
+  });
+  app.get("/dashboard/:guildID/general", checkAuth,async (req, res, args) => {
+    const guild = client.guilds.cache.get(req.params.guildID);
+     const perms = Discord.Permissions
+    const roles = guild.roles.cache.sort((a, b) => b.position - a.position).map(role => role.toString());
+    const sunucu = client.guilds.cache.get(req.params.guildID);
+  const db = require('quick.db')
+  const canvacord = require("canvacord");
+
+    if (!guild) return res.status(404);
+    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+       
+    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+
+/*const renkyeşil = #00ee00
+const renkkırmızı = #ff0000
+const renkbeyaz = #ffffff
+const renkmavi = #1e90ff
+const renksarı = #ffff00
+const renkturuncu = #ff7f24
+const renkmor = #bf3eff
+const renkturkuvas = #00f5ff
+const renkpembe = #ff34b3*/
+    
+ client.users.fetch(req.user.id).then(async a => {
+   const ms = require('ms')
+ const member = a;
+   const renk = await db.fetch(`seviyearkarenk_${guild.id}`)
+const bar = await db.fetch(`seviyebarrenk_${guild.id}`)
+  let xp = await db.fetch(`verilecekxp_${guild.id}`)
+  let seviyerol = await db.fetch(`svrol_${guild.id}`)
+  let rollvl = await db.fetch(`rollevel_${guild.id}`)
+  var xpToLvl = await db.fetch(`xpToLvl_${req.user.id}_${guild.id}`);
+  let kxp = await db.fetch(`xp_${req.user.id}_${guild.id}`)
+  let klvl = await db.fetch(`lvl_${req.user.id}_${guild.id}`)-1
+   let statuss = ""
+if(member.presence.status === "dnd")
+  {
+  statuss = "#f04747"  
+  }
+ if(member.presence.status === "idle")
+  {
+  statuss = "#ffff00"  
+  }
+    if(member.presence.status === "online")
+  {
+  statuss = "#1afa1a"  
+  }
+ if(member.presence.status === "offline")
+  {
+  statuss = "#747f8d"  
+  }
+   let rrrol = ""
+   let rrkanal = ""
+   let kanalog = ""
+   let muterol = ""
+      let seviyelog = ""
+       if (db.has(`rr_${guild.id}.role`) === true) {
+rrrol = guild.roles.cache.get(db.fetch(`rr_${guild.id}.role`)).name
+}
+         if (db.has(`rr_${guild.id}.channel`) === true) {
+rrkanal = client.channels.cache.get(db.fetch(`rr_${guild.id}.channel`)).name
+}
+   if (db.has(`kalog${guild.id}`) === true) {
+kanalog = client.channels.cache.get(db.fetch(`kalog${guild.id}`)).name
+}
+     if (db.has(`antispamr_${guild.id}`) === true) {
+muterol = guild.roles.cache.get(db.fetch(`antispamr_${guild.id}`)).name
+}
+      if (db.has(`svlog_${guild.id}`) === true) {
+seviyelog = client.channels.cache.get(db.fetch(`svlog_${guild.id}`)).name
+}
+    renderTemplate(res, req, "guild/general.ejs", {perms,guild,sunucu,db,member,statuss,kxp,klvl,xpToLvl,roles,rrkanal,rrrol,kanalog,muterol,seviyelog});
+   
+   
+       });
+  });
+   
+  app.post("/dashboard/:guildID/logs", checkAuth,  (req, res) => {
     const db = require('quick.db')
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
@@ -656,7 +997,7 @@ db.set(`hglogarkaresim_${guild.id}`, ayar['hgresim'])
     {db.set(`otorol_${guild.id}`,ayar['otorol'])
     }      
     if (ayar['otorolkanalk']) 
-    {db.set(`otorollog__${guild.id}`,ayar['otorolkanalk'])
+    {db.set(`otorollog_${guild.id}`,ayar['otorolkanalk'])
    } 
    if (ayar['kanalaçmak']) 
     {db.set(`kanalaçmalog_${guild.id}`,ayar['kanalaçmak'])
@@ -704,18 +1045,101 @@ db.set(`hglogarkaresim_${guild.id}`, ayar['hgresim'])
     {db.set(`emojisilmelog_${guild.id}`,ayar['emojisilmelog'])
    } 
     
-    res.redirect("/dashboard/"+req.params.guildID+"/loglar");
+    res.redirect("/dashboard/"+req.params.guildID+"/logs");
   });
-    app.get("/dashboard/:guildID/loglar", checkAuth, async (req, res) => {
+    app.get("/dashboard/:guildID/logs", checkAuth, async (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     const db = require('quick.db')
       const Discord2=require("discord.js");
-
-
+      let mesajsilmekanal = ""
+       let mesajgüncellemekanal = ""
+let girişlog = ""
+let çıkışlog = ""
+let hglog = ""
+let otorolrol = ""
+let otorolkanal = ""
+let kanalaçmalog = ""
+let kanalsilmelog = ""
+let rolaçmalog = ""
+let rolsilmelog = ""
+let rolgüncellemelog = ""
+let roldeğiştirmelog = ""
+let banlog = ""
+let banaçmalog = ""
+let isimlog = ""
+let isteklog = ""
+let buglog = ""
+let emojiaçmalog = ""
+let emojisilmelog = ""
+      if (db.has(`mesajsilmelog_${guild.id}`) === true) {
+ mesajsilmekanal = client.channels.cache.get(db.fetch(`mesajsilmelog_${guild.id}`)).name
+}
+       if (db.has(`mesajgüncellemelog_${guild.id}`) === true) {
+mesajgüncellemekanal = client.channels.cache.get(db.fetch(`mesajgüncellemelog_${guild.id}`)).name
+}
+      if (db.has(`girişlog_${guild.id}`) === true) {
+girişlog = client.channels.cache.get(db.fetch(`girişlog_${guild.id}`)).name
+}
+    
+         if (db.has(`çıkışlog_${guild.id}`) === true) {
+çıkışlog = client.channels.cache.get(db.fetch(`çıkışlog_${guild.id}`)).name
+}
+      if (db.has(`hglog_${guild.id}`) === true) {
+hglog = client.channels.cache.get(db.fetch(`hglog_${guild.id}`)).name
+}
+       if (db.has(`otorol_${guild.id}`) === true) {
+otorolrol = guild.roles.cache.get(db.fetch(`otorol_${guild.id}`)).name
+}
+         if (db.has(`otorollog_${guild.id}`) === true) {
+otorolkanal = client.channels.cache.get(db.fetch(`otorollog_${guild.id}`)).name
+}
+          if (db.has(`kanalaçmalog_${guild.id}`) === true) {
+kanalaçmalog = client.channels.cache.get(db.fetch(`kanalaçmalog_${guild.id}`)).name
+}
+        if (db.has(`kanalsilmelog_${guild.id}`) === true) {
+kanalsilmelog = client.channels.cache.get(db.fetch(`kanalsilmelog_${guild.id}`)).name
+}
+          if (db.has(`rolaçmalog_${guild.id}`) === true) {
+rolaçmalog = client.channels.cache.get(db.fetch(`rolaçmalog_${guild.id}`)).name
+}
+         if (db.has(`rolsilmelog_${guild.id}`) === true) {
+rolsilmelog = client.channels.cache.get(db.fetch(`rolsilmelog_${guild.id}`)).name
+}
+           if (db.has(`rolgüncellemelog_${guild.id}`) === true) {
+rolgüncellemelog = client.channels.cache.get(db.fetch(`rolgüncellemelog_${guild.id}`)).name
+}
+        if (db.has(`roldeğiştirmelog_${guild.id}`) === true) {
+roldeğiştirmelog = client.channels.cache.get(db.fetch(`roldeğiştirmelog_${guild.id}`)).name
+}
+      
+         if (db.has(`banlog_${guild.id}`) === true) {
+banlog = client.channels.cache.get(db.fetch(`banlog_${guild.id}`)).name
+}
+         if (db.has(`banaçmalog_${guild.id}`) === true) {
+banaçmalog = client.channels.cache.get(db.fetch(`banaçmalog_${guild.id}`)).name
+}
+          if (db.has(`isimlog_${guild.id}`) === true) {
+isimlog = client.channels.cache.get(db.fetch(`isimlog_${guild.id}`)).name
+}
+  
+      
+       if (db.has(`ilog_${guild.id}`) === true) {
+isteklog = client.channels.cache.get(db.fetch(`ilog_${guild.id}`)).name
+}
+       if (db.has(`buglog_${guild.id}`) === true) {
+buglog = client.channels.cache.get(db.fetch(`buglog_${guild.id}`)).name
+}
+                if (db.has(`emojiaçmalog_${guild.id}`) === true) {
+emojiaçmalog = client.channels.cache.get(db.fetch(`emojiaçmalog_${guild.id}`)).name
+}
+         if (db.has(`emojisilmelog_${guild.id}`) === true) {
+emojisilmelog = client.channels.cache.get(db.fetch(`emojisilmelog_${guild.id}`)).name
+}
+     
     if (!guild) return res.status(404);
     const isLanaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isLanaged && !req.session.isAdmin) res.redirect("/");
-    renderTemplate(res, req, "guild/loglar.ejs", {guild,db,fs,client2});
+    renderTemplate(res, req, "guild/logs.ejs", {guild,db,fs,client2,mesajsilmekanal,mesajgüncellemekanal,girişlog,çıkışlog,hglog,otorolrol,otorolkanal,kanalsilmelog,kanalaçmalog,rolaçmalog,rolsilmelog,rolgüncellemelog,roldeğiştirmelog,banlog,banaçmalog,isimlog,isteklog,buglog,emojiaçmalog,emojisilmelog});
   
   });
 
@@ -757,7 +1181,7 @@ db.set(`hglogarkaresim_${guild.id}`, ayar['hgresim'])
   
   app.get("/stats", (req, res) => {
     const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
-    const members = client.users.cache.size;
+    const members = client.guilds.cache.reduce((p, c) => p + c.memberCount, 0);
     const textChannels = client.channels.cache.filter(c => c.type === "text").size;
     const voiceChannels = client.channels.cache.filter(c => c.type === "voice").size;
     const guilds = client.guilds.cache.size;
@@ -777,9 +1201,15 @@ db.set(`hglogarkaresim_${guild.id}`, ayar['hgresim'])
 
   app.get("/dashboard", checkAuth, (req, res) => {
     const perms = Discord.EvaluatedPermissions;
+   
     renderTemplate(res, req, "dashboard.ejs", {perms});
   });
 
+  app.get("/dashboard", checkAuth, (req, res) => {
+    const perms = Discord.EvaluatedPermissions;
+      renderTemplate(res, req, "blocks/head.ejs", {perms});
+ 
+  });
   
   app.get("/admin", checkAuth, (req, res) => {
     if (!req.session.isAdmin) return res.redirect("/");
