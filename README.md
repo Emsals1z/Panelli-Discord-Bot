@@ -1,5 +1,5 @@
 # Açıklama
-Yeni başlayanlara yardımcı olması için uzun süreler uğraştığım web panelli discord botumu **paylaşıyorum**. Umarım yeni başlayanlara yardımcı olur. Sadece sizden istediğim botumun içindeki kodları para karşılığı satmamanız.
+Yeni başlayanlara yardımcı olması için uzun süreler uğraştığım web panelli discord botumu **paylaşıyorum**. Umarım yeni başlayanlara yardımcı olur. Sadece sizden istediğim botumun içindeki kodları para karşılığı satmamanız. Satmanız durumunda gerekli işlemleri başlatacağım.**(Projede mit lisansı bulunmaktadır.)**
 
 Botun web panelinin önizlemesi: https://f-bot.cf/
 # Kurulum
