@@ -1,5 +1,5 @@
 # Açıklama
-Yeni başlayanlara yardımcı olması için uzun süreler uğraştığım web panelli discord botumu **paylaşıyorum**. Umarım yeni başlayanlara yardımcı olur. Sadece sizden istediğim botumun içindeki kodları para karşılığı satmamanız. Satmanız durumunda gerekli işlemleri başlatacağım.**(Projede mit lisansı bulunmaktadır.)**
+Yeni başlayanlara yardımcı olması için uzun süreler uğraştığım web panelli discord botumu **paylaşıyorum**. Umarım yeni başlayanlara yardımcı olur. Sadece sizden istediğim botumun içindeki kodları para karşılığı satmamanız. Satmanız durumunda gerekli işlemleri başlatacağım.
 
 Botun web panelinin önizlemesi: https://f-bot.cf/
 # Kurulum
@@ -9,7 +9,7 @@ Botun web panelinin önizlemesi: https://f-bot.cf/
 
 **-** Konsola **npm i**  yazın ve gerekli dosyaların inmesini bekleyin.
 
-# Emsalsiz tarafından geliştirildi ve paylaşıldı❤️ 
+# Emsalsiz tarafından geliştirildi ve paylaşıldı
 
 
 
